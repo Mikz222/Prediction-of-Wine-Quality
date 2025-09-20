@@ -75,17 +75,3 @@ with tab2:
     - 🎯 **Target**: Wine quality (score 0–10, we classify ≥7 as good)
     - 📦 **Samples**: ~1600 wines
     """)
-
-# ---------------- TAB 3: ABOUT ----------------
-with tab3:
-    st.subheader("ℹ️ About this App")
-    st.markdown("""
-    This app helps predict whether a wine is of **good quality** based on its 
-    chemical composition using a **Random Forest Classifier**.
-
-    - 🔬 Built with **scikit-learn & joblib**
-    - 🖥️ Deployed with **Streamlit**
-    - 👨‍💻 Created as part of a **Machine Learning project**
-
-    ✨ Try changing the inputs to see how each chemical property affects wine quality!
-    """)
