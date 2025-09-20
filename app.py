@@ -10,43 +10,22 @@ scaler = joblib.load("artifacts/scaler.pkl")
 st.set_page_config(
     page_title="Wine Quality Prediction",
     page_icon="🍷",
-    layout="wide"
+    layout="centered"
 )
-
-# ------------------- MAIN UI -------------------
-st.title("🍷 Wine Quality Prediction Dashboard")
-st.markdown("<h3 style='color:#4B0000;'>A refined tool for predicting premium wine quality</h3>", unsafe_allow_html=True)
-
-st.markdown("""
-Welcome to the **Wine Quality Prediction App**!  
-This tool uses a **Random Forest Classifier** trained on cleaned and balanced wine data.  
-Use the sidebar to set wine chemistry attributes and discover if your wine is of premium quality.  
-""")
 
 # ------------------- CUSTOM STYLE -------------------
 st.markdown("""
     <style>
-    /* Background */
-    .main {
-        background-color: #FDFDFD;  /* light grayish white */
+    body {
+        background-color: #F8FAFC; /* very light cool background */
+        font-family: 'Trebuchet MS', sans-serif;
     }
-    /* Title */
     h1, h2, h3 {
-        color: #2C3E50;
-        font-family: 'Georgia', serif;
+        color: #1E3A8A; /* dark blue */
     }
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background-color: #ECF0F1; /* light cool gray */
-    }
-    section[data-testid="stSidebar"] .stSlider label, 
-    section[data-testid="stSidebar"] .stNumberInput label {
-        color: #2C3E50;
-    }
-    /* Buttons */
     .stButton>button {
         width: 100%;
-        background: linear-gradient(90deg, #3498DB, #2980B9);
+        background: linear-gradient(90deg, #3B82F6, #2563EB);
         color: white;
         border-radius: 12px;
         height: 3em;
@@ -54,48 +33,65 @@ st.markdown("""
         border: none;
     }
     .stButton>button:hover {
-        background: linear-gradient(90deg, #2980B9, #3498DB);
-        color: #F1C40F;
+        background: linear-gradient(90deg, #2563EB, #1D4ED8);
+        color: #FACC15;
     }
-    /* Result Cards */
-    .result-card {
+    .input-card {
+        background-color: #FFFFFF;
         padding: 20px;
         border-radius: 15px;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+    .result-card {
+        padding: 25px;
+        border-radius: 15px;
         text-align: center;
-        margin-top: 20px;
         font-size: 22px;
         font-weight: bold;
-        font-family: 'Trebuchet MS', sans-serif;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
     }
     .good {
-        background-color: #E8F8F5;
-        color: #145A32;
-        border: 3px solid #27AE60;
+        background-color: #ECFDF5;
+        color: #065F46;
+        border: 3px solid #10B981;
     }
     .bad {
-        background-color: #FDEDEC;
-        color: #922B21;
-        border: 3px solid #C0392B;
+        background-color: #FEF2F2;
+        color: #991B1B;
+        border: 3px solid #DC2626;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# ------------------- SIDEBAR -------------------
-st.sidebar.title("⚙️ Input Wine Measurements")
-st.sidebar.markdown("✨ Use the sliders to adjust the wine attributes")
+# ------------------- MAIN UI -------------------
+st.title("🍷 Wine Quality Prediction")
+st.markdown("<h3 style='color:#1E3A8A;'>Predict wine quality with chemistry attributes</h3>", unsafe_allow_html=True)
 
-fixed_acidity = st.sidebar.slider("Fixed Acidity", 4.0, 16.0, 7.4)
-volatile_acidity = st.sidebar.slider("Volatile Acidity", 0.0, 1.5, 0.7)
-citric_acid = st.sidebar.slider("Citric Acid", 0.0, 1.0, 0.0)
-residual_sugar = st.sidebar.slider("Residual Sugar", 0.0, 15.0, 1.9)
-chlorides = st.sidebar.slider("Chlorides", 0.01, 0.2, 0.076)
-free_sulfur_dioxide = st.sidebar.slider("Free Sulfur Dioxide", 0.0, 80.0, 11.0)
-total_sulfur_dioxide = st.sidebar.slider("Total Sulfur Dioxide", 0.0, 300.0, 34.0)
-density = st.sidebar.slider("Density", 0.990, 1.005, 0.9978)
-pH = st.sidebar.slider("pH", 2.5, 4.5, 3.3)
-sulphates = st.sidebar.slider("Sulphates", 0.0, 2.0, 0.56)
-alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
+st.write("Fill in the wine’s chemical measurements below and check whether it is **Good Quality** or **Not Good Quality**.")
+
+# ------------------- INPUT FORM -------------------
+with st.form("wine_form"):
+    st.markdown("### 🔹 Enter Wine Attributes")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        fixed_acidity = st.number_input("Fixed Acidity", 4.0, 16.0, 7.4)
+        volatile_acidity = st.number_input("Volatile Acidity", 0.0, 1.5, 0.7)
+        citric_acid = st.number_input("Citric Acid", 0.0, 1.0, 0.0)
+        residual_sugar = st.number_input("Residual Sugar", 0.0, 15.0, 1.9)
+        chlorides = st.number_input("Chlorides", 0.01, 0.2, 0.076)
+
+    with col2:
+        free_sulfur_dioxide = st.number_input("Free Sulfur Dioxide", 0.0, 80.0, 11.0)
+        total_sulfur_dioxide = st.number_input("Total Sulfur Dioxide", 0.0, 300.0, 34.0)
+        density = st.number_input("Density", 0.990, 1.005, 0.9978, format="%.4f")
+        pH = st.number_input("pH", 2.5, 4.5, 3.3)
+        sulphates = st.number_input("Sulphates", 0.0, 2.0, 0.56)
+        alcohol = st.number_input("Alcohol", 8.0, 15.0, 9.4)
+
+    submitted = st.form_submit_button("🍇 Predict Quality")
 
 # ------------------- FEATURE NAMES -------------------
 feature_names = [
@@ -113,7 +109,7 @@ feature_names = [
 ]
 
 # ------------------- PREDICTION -------------------
-if st.sidebar.button("🍇 Predict Quality"):
+if submitted:
     input_df = pd.DataFrame([[
         fixed_acidity,
         volatile_acidity,
@@ -135,18 +131,18 @@ if st.sidebar.button("🍇 Predict Quality"):
     prediction = model.predict(input_scaled)[0]
     proba = model.predict_proba(input_scaled)[0][1]
 
-    # Result card
+    # Show result
     if prediction == 1:
         st.markdown(
-            f"<div class='result-card good'>✅ Excellent! This wine is predicted to be <br><span style='font-size:28px;'>Good Quality 🍷</span><br>Confidence: {proba*100:.2f}%</div>",
+            f"<div class='result-card good'>✅ Good Quality Wine<br><br>Confidence: {proba*100:.2f}%</div>",
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f"<div class='result-card bad'>❌ Unfortunately, this wine is predicted to be <br><span style='font-size:28px;'>Not Good Quality</span><br>Confidence: {(1-proba)*100:.2f}%</div>",
+            f"<div class='result-card bad'>❌ Not Good Quality Wine<br><br>Confidence: {(1-proba)*100:.2f}%</div>",
             unsafe_allow_html=True
         )
 
     # Show entered values
-    st.markdown("### 📌 Your Entered Measurements")
+    st.markdown("### 📊 Your Entered Measurements")
     st.dataframe(input_df, use_container_width=True)
