@@ -2,52 +2,84 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load model
-model = joblib.load("artifacts/model.pkl")
+# ------------------- LOAD MODEL + SCALER -------------------
+model = joblib.load("wine_quality_model.pkl")
+scaler = joblib.load("scaler.pkl")
 
-# Streamlit page settings
+# ------------------- STREAMLIT SETTINGS -------------------
 st.set_page_config(
     page_title="Wine Quality Prediction",
     page_icon="🍷",
     layout="wide"
 )
+
 # ------------------- MAIN UI -------------------
 st.title("🍷 Wine Quality Prediction Dashboard")
 st.markdown("<h3 style='color:#8B0000;'>A refined tool for predicting premium wine quality</h3>", unsafe_allow_html=True)
 
 st.markdown("""
 Welcome to the **Wine Quality Prediction App**!  
-This tool uses a **Random Forest Classifier** trained on real-world data.  
+This tool uses a **Random Forest Classifier** trained on cleaned and balanced wine data.  
 Use the sidebar to set wine chemistry attributes and discover if your wine is of premium quality.  
 """)
 
-
 # ------------------- CUSTOM STYLE -------------------
-
-st.set_page_config(
-    page_title="Wine Quality Prediction",
-    page_icon="🍷",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# Force light theme
 st.markdown("""
     <style>
-    :root {
-        --background-color: #F5E0C3;
-        --text-color: #4B0000;
+    /* Background */
+    .main {
+        background-color: #FAF3E0;  /* soft cream */
     }
-    body, [data-testid="stAppViewContainer"] {
-        background-color: var(--background-color) !important;
-        color: var(--text-color) !important;
+    /* Title */
+    h1, h2, h3 {
+        color: #4B0000;
+        font-family: 'Georgia', serif;
     }
-    [data-testid="stHeader"] {
-        background: none;
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        background-color: #F5E0C3; /* warm beige */
+    }
+    section[data-testid="stSidebar"] .stSlider label, 
+    section[data-testid="stSidebar"] .stNumberInput label {
+        color: #4B0000;
+    }
+    /* Buttons */
+    .stButton>button {
+        width: 100%;
+        background: linear-gradient(90deg, #8B0000, #B22222);
+        color: white;
+        border-radius: 12px;
+        height: 3em;
+        font-size: 16px;
+        border: none;
+    }
+    .stButton>button:hover {
+        background: linear-gradient(90deg, #B22222, #8B0000);
+        color: #FFD700;
+    }
+    /* Result Cards */
+    .result-card {
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: bold;
+        font-family: 'Trebuchet MS', sans-serif;
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+    }
+    .good {
+        background-color: #FFF9E6;
+        color: #155724;
+        border: 3px solid #FFD700;
+    }
+    .bad {
+        background-color: #FCE8E6;
+        color: #721c24;
+        border: 3px solid #B22222;
     }
     </style>
 """, unsafe_allow_html=True)
-
 
 # ------------------- SIDEBAR -------------------
 st.sidebar.title("⚙️ Input Wine Measurements")
@@ -67,12 +99,16 @@ alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
 
 # ------------------- PREDICTION -------------------
 if st.sidebar.button("🍇 Predict Quality"):
-    features = [[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-                 chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
-                 density, pH, sulphates, alcohol]]
+    features = [[
+        fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+        chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
+        density, pH, sulphates, alcohol
+    ]]
     
-    prediction = model.predict(features)[0]
-    proba = model.predict_proba(features)[0][1]
+    # Apply scaler before prediction
+    features_scaled = scaler.transform(features)
+    prediction = model.predict(features_scaled)[0]
+    proba = model.predict_proba(features_scaled)[0][1]
 
     # Result card
     if prediction == 1:
@@ -93,11 +129,3 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
-
-
-
-
-
-
-
-
