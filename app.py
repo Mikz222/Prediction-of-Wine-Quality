@@ -27,7 +27,7 @@ st.markdown("""
     <style>
     /* Background */
     .main {
-        background-color: #FAF3E0;  /* soft cream */
+        background-color: #F5E0C3;  /* same as sidebar */
     }
     /* Title */
     h1, h2, h3 {
@@ -72,12 +72,12 @@ st.markdown("""
         box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
     }
     .good {
-        background-color: #FFF9E6;
+        background-color: #FFF5D9; /* softer beige-yellow */
         color: #155724;
         border: 3px solid #FFD700;
     }
     .bad {
-        background-color: #FCE8E6;
+        background-color: #FADBD8; /* soft warm red */
         color: #721c24;
         border: 3px solid #B22222;
     }
@@ -127,6 +127,7 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
 
 
 
