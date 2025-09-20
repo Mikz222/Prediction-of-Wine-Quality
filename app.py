@@ -17,7 +17,7 @@ st.markdown("""
     <style>
     /* Background */
     .main {
-        background-color: #FDF6F0;
+        background-color: #FAF3E0;  /* soft cream */
     }
     /* Title */
     h1, h2, h3 {
@@ -26,11 +26,15 @@ st.markdown("""
     }
     /* Sidebar */
     section[data-testid="stSidebar"] {
-        background-color: #2E1A1A;
+        background-color: #F5E0C3; /* warm beige */
     }
     section[data-testid="stSidebar"] .stSlider label, 
     section[data-testid="stSidebar"] .stNumberInput label {
-        color: #FFD700;
+        color: #4B0000;
+    }
+    /* Sliders */
+    .stSlider [data-baseweb="slider"] {
+        color: #8B0000;
     }
     /* Buttons */
     .stButton>button {
@@ -69,7 +73,6 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-
 # ------------------- SIDEBAR -------------------
 st.sidebar.title("⚙️ Input Wine Measurements")
 st.sidebar.markdown("✨ Use the sliders to adjust the wine attributes")
@@ -85,22 +88,6 @@ density = st.sidebar.slider("Density", 0.990, 1.005, 0.9978)
 pH = st.sidebar.slider("pH", 2.5, 4.5, 3.3)
 sulphates = st.sidebar.slider("Sulphates", 0.0, 2.0, 0.56)
 alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
-
-# ------------------- MAIN UI -------------------
-st.title("🍷 Wine Quality Prediction Dashboard")
-st.markdown("<h3 style='color:#8B0000;'>A refined tool for predicting premium wine quality</h3>", unsafe_allow_html=True)
-
-col1, col2 = st.columns([2,1])
-
-with col1:
-    st.markdown("""
-    Welcome to the **Wine Quality Prediction App**!  
-    This tool uses a **Random Forest Classifier** trained on real-world data.  
-    Use the sidebar to set wine chemistry attributes and discover if your wine is of premium quality.  
-    """)
-
-with col2:
-    st.image("https://cdn-icons-png.flaticon.com/512/184/184540.png", width=160)
 
 # ------------------- PREDICTION -------------------
 if st.sidebar.button("🍇 Predict Quality"):
@@ -130,5 +117,6 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
 
 
