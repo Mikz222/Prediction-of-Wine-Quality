@@ -1,10 +1,10 @@
 import streamlit as st
 import pandas as pd
-import pickle
+import joblib
 
 # Load model + scaler
-model = pickle.load(open("artifacts/model.pkl", "rb"))
-scaler = pickle.load(open("artifacts/scaler.pkl", "rb"))
+model = joblib.load("artifacts/model.pkl")   # or artifacts/model.joblib if you saved with joblib
+scaler = joblib.load("artifacts/scaler.pkl")
 # Page setup
 st.set_page_config(page_title="Wine Quality Predictor", page_icon="🍷", layout="centered")
 
@@ -79,4 +79,5 @@ if st.button("Predict Quality"):
     else:
         st.markdown("<p class='bad'>❌ Poor Quality Wine</p>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
+
 
