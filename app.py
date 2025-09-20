@@ -13,7 +13,7 @@ st.title("🍷 Wine Quality Prediction Dashboard")
 st.markdown("Predict wine quality based on its chemical composition.")
 
 # Tabs
-tab1, tab2, tab3 = st.tabs(["🔮 Prediction", "📊 Dataset Info", "ℹ️ About"])
+tab1, tab2 = st.tabs(["🔮 Prediction", "📊 Dataset Info"])
 
 # ---------------- TAB 1: PREDICTION ----------------
 with tab1:
@@ -75,3 +75,4 @@ with tab2:
     - 🎯 **Target**: Wine quality (score 0–10, we classify ≥7 as good)
     - 📦 **Samples**: ~1600 wines
     """)
+
