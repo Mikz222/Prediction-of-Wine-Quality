@@ -3,9 +3,8 @@ import pandas as pd
 import pickle
 
 # Load model + scaler
-model = pickle.load(open("model.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
-
+model = pickle.load(open("artifacts/model.pkl", "rb"))
+scaler = pickle.load(open("artifacts/scaler.pkl", "rb"))
 # Page setup
 st.set_page_config(page_title="Wine Quality Predictor", page_icon="🍷", layout="centered")
 
@@ -80,3 +79,4 @@ if st.button("Predict Quality"):
     else:
         st.markdown("<p class='bad'>❌ Poor Quality Wine</p>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
+
