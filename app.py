@@ -25,22 +25,22 @@ Use the sidebar to set wine chemistry attributes and discover if your wine is of
 # ------------------- CUSTOM STYLE -------------------
 st.markdown("""
     <style>
-    /* Background */
-    .main {
-        background-color: #F5E0C3;  /* same as sidebar */
-    }
-    /* Title */
-    h1, h2, h3 {
-        color: #4B0000;
-        font-family: 'Georgia', serif;
+    /* Main background */
+    section[data-testid="stAppViewContainer"] {
+        background-color: #F5E0C3; /* same as sidebar */
     }
     /* Sidebar */
     section[data-testid="stSidebar"] {
-        background-color: #F5E0C3; /* warm beige */
+        background-color: #F5E0C3;
     }
     section[data-testid="stSidebar"] .stSlider label, 
     section[data-testid="stSidebar"] .stNumberInput label {
         color: #4B0000;
+    }
+    /* Titles */
+    h1, h2, h3 {
+        color: #4B0000 !important;
+        font-family: 'Georgia', serif;
     }
     /* Sliders */
     .stSlider [data-baseweb="slider"] {
@@ -72,17 +72,18 @@ st.markdown("""
         box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
     }
     .good {
-        background-color: #FFF5D9; /* softer beige-yellow */
+        background-color: #FFF5D9; 
         color: #155724;
         border: 3px solid #FFD700;
     }
     .bad {
-        background-color: #FADBD8; /* soft warm red */
+        background-color: #FADBD8; 
         color: #721c24;
         border: 3px solid #B22222;
     }
     </style>
 """, unsafe_allow_html=True)
+
 # ------------------- SIDEBAR -------------------
 st.sidebar.title("⚙️ Input Wine Measurements")
 st.sidebar.markdown("✨ Use the sliders to adjust the wine attributes")
@@ -127,6 +128,7 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
 
 
 
