@@ -23,6 +23,12 @@ Use the sidebar to set wine chemistry attributes and discover if your wine is of
 
 
 # ------------------- CUSTOM STYLE -------------------
+st.set_page_config(
+    page_title="Wine Quality Prediction",
+    page_icon="🍷",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 st.markdown("""
     <style>
     /* Main background */
@@ -128,6 +134,7 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
 
 
 
