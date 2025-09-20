@@ -3,8 +3,8 @@ import pandas as pd
 import joblib
 
 # ------------------- LOAD MODEL + SCALER -------------------
-model = joblib.load("wine_quality_model.pkl")
-scaler = joblib.load("scaler.pkl")
+model = joblib.load("artifacts/model.pkl")
+scaler = joblib.load("artifacts/scaler.pkl")
 
 # ------------------- STREAMLIT SETTINGS -------------------
 st.set_page_config(
@@ -129,3 +129,4 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
