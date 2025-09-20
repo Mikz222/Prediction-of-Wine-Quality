@@ -11,6 +11,16 @@ st.set_page_config(
     page_icon="🍷",
     layout="wide"
 )
+# ------------------- MAIN UI -------------------
+st.title("🍷 Wine Quality Prediction Dashboard")
+st.markdown("<h3 style='color:#8B0000;'>A refined tool for predicting premium wine quality</h3>", unsafe_allow_html=True)
+
+st.markdown("""
+Welcome to the **Wine Quality Prediction App**!  
+This tool uses a **Random Forest Classifier** trained on real-world data.  
+Use the sidebar to set wine chemistry attributes and discover if your wine is of premium quality.  
+""")
+
 
 # ------------------- CUSTOM STYLE -------------------
 st.markdown("""
