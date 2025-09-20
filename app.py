@@ -113,15 +113,3 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
-
-# ------------------- EXTRA SECTION -------------------
-st.markdown("---")
-st.subheader("ℹ️ About This Project")
-st.markdown("""
-- 🧪 Uses **11 wine chemistry features**  
-- 🌲 Model: **Random Forest Classifier**  
-- 🚀 Built with **Python, Scikit-learn, and Streamlit**  
-- 📦 Deployed from GitHub  
-
-Try adjusting the **alcohol** and **sulphates** sliders — these are among the most influential features for predicting quality!
-""")
