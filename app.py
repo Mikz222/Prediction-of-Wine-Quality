@@ -24,66 +24,30 @@ Use the sidebar to set wine chemistry attributes and discover if your wine is of
 
 # ------------------- CUSTOM STYLE -------------------
 
+st.set_page_config(
+    page_title="Wine Quality Prediction",
+    page_icon="🍷",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Force light theme
 st.markdown("""
     <style>
-    /* Main background */
-    section[data-testid="stAppViewContainer"] {
-        background-color: #F5E0C3; /* same as sidebar */
+    :root {
+        --background-color: #F5E0C3;
+        --text-color: #4B0000;
     }
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background-color: #F5E0C3;
+    body, [data-testid="stAppViewContainer"] {
+        background-color: var(--background-color) !important;
+        color: var(--text-color) !important;
     }
-    section[data-testid="stSidebar"] .stSlider label, 
-    section[data-testid="stSidebar"] .stNumberInput label {
-        color: #4B0000;
-    }
-    /* Titles */
-    h1, h2, h3 {
-        color: #4B0000 !important;
-        font-family: 'Georgia', serif;
-    }
-    /* Sliders */
-    .stSlider [data-baseweb="slider"] {
-        color: #8B0000;
-    }
-    /* Buttons */
-    .stButton>button {
-        width: 100%;
-        background: linear-gradient(90deg, #8B0000, #B22222);
-        color: white;
-        border-radius: 12px;
-        height: 3em;
-        font-size: 16px;
-        border: none;
-    }
-    .stButton>button:hover {
-        background: linear-gradient(90deg, #B22222, #8B0000);
-        color: #FFD700;
-    }
-    /* Result Cards */
-    .result-card {
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        margin-top: 20px;
-        font-size: 22px;
-        font-weight: bold;
-        font-family: 'Trebuchet MS', sans-serif;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-    }
-    .good {
-        background-color: #FFF5D9; 
-        color: #155724;
-        border: 3px solid #FFD700;
-    }
-    .bad {
-        background-color: #FADBD8; 
-        color: #721c24;
-        border: 3px solid #B22222;
+    [data-testid="stHeader"] {
+        background: none;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ------------------- SIDEBAR -------------------
 st.sidebar.title("⚙️ Input Wine Measurements")
@@ -129,6 +93,7 @@ if st.sidebar.button("🍇 Predict Quality"):
         "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
     ])
     st.dataframe(df, use_container_width=True)
+
 
 
 
