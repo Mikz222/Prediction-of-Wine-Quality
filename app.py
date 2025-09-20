@@ -98,34 +98,32 @@ sulphates = st.sidebar.slider("Sulphates", 0.0, 2.0, 0.56)
 alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
 
 # ------------------- PREDICTION -------------------
-if st.sidebar.button("🍇 Predict Quality"):
-    features = [[
-        fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-        chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
-        density, pH, sulphates, alcohol
-    ]]
-    
-    # Apply scaler before prediction
-    features_scaled = scaler.transform(features)
-    prediction = model.predict(features_scaled)[0]
-    proba = model.predict_proba(features_scaled)[0][1]
+if st.sidebar.button("Predict Wine Quality"):
+    # Scale input
+    input_scaled = scaler.transform(input_df)
 
-    # Result card
-    if prediction == 1:
-        st.markdown(
-            f"<div class='result-card good'>✅ Excellent! This wine is predicted to be <br><span style='font-size:28px;'>Good Quality 🍷</span><br>Confidence: {proba*100:.2f}%</div>",
-            unsafe_allow_html=True
-        )
+    # Get probabilities
+    probs = model.predict_proba(input_scaled)[0]
+    pred = model.predict(input_scaled)[0]
+
+    # Map classes (assuming 0 = Not Good, 1 = Good)
+    class_labels = {0: "Not Good Quality", 1: "Good Quality"}
+
+    st.subheader("🔮 Prediction Result")
+
+    if pred == 1:
+        st.success(f"✅ This wine is predicted to be **{class_labels[pred]}**")
     else:
-        st.markdown(
-            f"<div class='result-card bad'>❌ Unfortunately, this wine is predicted to be <br><span style='font-size:28px;'>Not Good Quality</span><br>Confidence: {(1-proba)*100:.2f}%</div>",
-            unsafe_allow_html=True
-        )
+        st.error(f"❌ Unfortunately, this wine is predicted to be **{class_labels[pred]}**")
 
-    # Show entered values
-    st.markdown("### 📌 Your Entered Measurements")
-    df = pd.DataFrame(features, columns=[
-        "Fixed Acidity", "Volatile Acidity", "Citric Acid", "Residual Sugar", 
-        "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
-    ])
-    st.dataframe(df, use_container_width=True)
+    # Show both probabilities
+    st.write("### 📊 Prediction Probabilities")
+    prob_df = pd.DataFrame({
+        "Class": [class_labels[0], class_labels[1]],
+        "Probability (%)": [round(probs[0]*100, 2), round(probs[1]*100, 2)]
+    })
+    st.dataframe(prob_df, hide_index=True)
+
+    # Show entered features
+    st.subheader("📌 Your Entered Measurements")
+    st.dataframe(input_df)
