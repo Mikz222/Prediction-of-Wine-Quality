@@ -98,6 +98,7 @@ sulphates = st.sidebar.slider("Sulphates", 0.0, 2.0, 0.56)
 alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
 
 # ------------------- PREDICTION -------------------
+
 if st.sidebar.button("🍇 Predict Quality"):
     features = [[
         fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
@@ -112,26 +113,31 @@ if st.sidebar.button("🍇 Predict Quality"):
 
     # Labels
     class_labels = {0: "Not Good Quality", 1: "Good Quality"}
+    confidence = round(probs[prediction] * 100, 2)  # confidence of predicted class
 
-    # Result card
+    # Result card with confidence under the text
     if prediction == 1:
         st.markdown(
-            f"<div class='result-card good'>✅ Excellent! This wine is predicted to be <br><span style='font-size:28px;'>{class_labels[prediction]} 🍷</span></div>",
+            f"""
+            <div class='result-card good'>
+                ✅ Excellent! This wine is predicted to be <br>
+                <span style='font-size:28px;'>{class_labels[prediction]} 🍷</span><br>
+                <span style='font-size:20px;'>Confidence: {confidence}%</span>
+            </div>
+            """,
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f"<div class='result-card bad'>❌ Unfortunately, this wine is predicted to be <br><span style='font-size:28px;'>{class_labels[prediction]}</span></div>",
+            f"""
+            <div class='result-card bad'>
+                ❌ Unfortunately, this wine is predicted to be <br>
+                <span style='font-size:28px;'>{class_labels[prediction]}</span><br>
+                <span style='font-size:20px;'>Confidence: {confidence}%</span>
+            </div>
+            """,
             unsafe_allow_html=True
         )
-
-    # Show probabilities for both classes
-    st.markdown("### 📊 Prediction Probabilities")
-    prob_df = pd.DataFrame({
-        "Class": [class_labels[0], class_labels[1]],
-        "Probability (%)": [round(probs[0]*100, 2), round(probs[1]*100, 2)]
-    })
-    st.dataframe(prob_df, use_container_width=True, hide_index=True)
 
     # Show entered values
     st.markdown("### 📌 Your Entered Measurements")
