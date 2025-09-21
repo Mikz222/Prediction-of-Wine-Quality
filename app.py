@@ -8,88 +8,95 @@ scaler = joblib.load("artifacts/scaler.pkl")
 
 st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="centered")
 
-# --- Custom Dark Theme CSS ---
+# --- Custom CSS for Modern Premium UI ---
 st.markdown(
     """
     <style>
-    /* Background */
+    /* Background gradient */
     .main, .block-container {
-        background-color: #1E1E1E;
-        color: #EAEAEA;
+        background: linear-gradient(135deg, #2a0a0a 0%, #0d0d0d 100%);
+        color: #f5f5f5;
     }
 
     /* Title */
-    h2 {
-        color: #FF4B4B;
+    h1, h2, h3 {
+        font-family: 'Georgia', serif;
         text-align: center;
-        font-weight: 800;
-        margin-bottom: 0.3em;
+        font-weight: 700;
+    }
+    h2 {
+        color: #ffcccc;
+        margin-bottom: 0.2em;
     }
     p.subtitle {
         text-align: center;
-        color: #BBBBBB;
+        color: #ddd;
         font-size: 1.1em;
         margin-bottom: 2em;
     }
 
-    /* Slider design */
-    div[data-baseweb="slider"] > div {
-        height: 10px !important;
-        background: #444;
-    }
-    div[data-baseweb="slider"] span {
-        height: 24px !important;
-        width: 24px !important;
-        background: linear-gradient(135deg, #B22222, #FF4B4B) !important;
-        border: 2px solid #fff !important;
-        box-shadow: 0px 2px 8px rgba(0,0,0,0.4);
-    }
-
-    /* Input card */
-    .input-card {
-        background: #2A2A2A;
+    /* Glassmorphic card */
+    .glass-card {
+        background: rgba(255, 255, 255, 0.08);
         padding: 2em;
-        border-radius: 15px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+        border-radius: 18px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        backdrop-filter: blur(8px);
         margin-bottom: 2em;
     }
 
-    /* Button */
+    /* Sliders */
+    div[data-baseweb="slider"] > div {
+        height: 10px !important;
+        background: rgba(255,255,255,0.15);
+        border-radius: 6px;
+    }
+    div[data-baseweb="slider"] span {
+        height: 22px !important;
+        width: 22px !important;
+        background: #ff4b4b !important;
+        border: 2px solid white !important;
+        border-radius: 50%;
+        box-shadow: 0px 0px 10px #ff4b4b;
+    }
+
+    /* Predict button */
     .stButton > button {
-        background: linear-gradient(135deg, #B22222, #8B0000);
+        background: linear-gradient(90deg, #b22222, #ff4b4b);
         color: white;
         font-size: 18px;
         font-weight: 600;
         padding: 0.7em 1.4em;
-        border-radius: 12px;
+        border-radius: 10px;
         border: none;
         width: 100%;
         transition: 0.3s;
     }
     .stButton > button:hover {
-        background: linear-gradient(135deg, #8B0000, #B22222);
-        transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.35);
+        background: linear-gradient(90deg, #ff4b4b, #b22222);
+        transform: scale(1.02);
+        box-shadow: 0px 4px 15px rgba(255,75,75,0.5);
     }
 
-    /* Result cards */
+    /* Result card */
     .result-card {
-        padding: 1.8em;
+        padding: 2em;
         margin-top: 1.5em;
-        border-radius: 15px;
+        border-radius: 18px;
         text-align: center;
-        font-size: 1.2em;
-        box-shadow: 0px 4px 14px rgba(0,0,0,0.35);
+        font-size: 1.3em;
+        font-weight: 600;
+        box-shadow: 0px 4px 20px rgba(0,0,0,0.45);
     }
     .good {
-        background: #1B3C29;
-        color: #4CAF50;
-        border-left: 6px solid #4CAF50;
+        background: rgba(34,139,34,0.15);
+        color: #90ee90;
+        border: 2px solid #90ee90;
     }
     .bad {
-        background: #3C1B1B;
-        color: #FF6B6B;
-        border-left: 6px solid #FF4B4B;
+        background: rgba(178,34,34,0.15);
+        color: #ff7f7f;
+        border: 2px solid #ff4b4b;
     }
 
     /* Footer */
@@ -97,7 +104,7 @@ st.markdown(
         text-align: center;
         font-size: 0.85em;
         margin-top: 2em;
-        color: #888;
+        color: #aaa;
     }
     </style>
     """,
@@ -105,11 +112,11 @@ st.markdown(
 )
 
 # --- Title ---
-st.markdown("<h2>🍷 Wine Quality Prediction</h2>", unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Adjust the sliders below and see if your wine is Good or Not Good</p>', unsafe_allow_html=True)
+st.markdown("<h2>🍷 Premium Wine Quality Predictor</h2>", unsafe_allow_html=True)
+st.markdown('<p class="subtitle">Discover if your wine meets premium quality standards</p>', unsafe_allow_html=True)
 
-# --- Input Section ---
-st.markdown('<div class="input-card">', unsafe_allow_html=True)
+# --- Input Section (Glass Card) ---
+st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
 fixed_acidity = st.slider("Fixed Acidity", 4.0, 15.0, 7.4)
 volatile_acidity = st.slider("Volatile Acidity", 0.1, 1.5, 0.3)
@@ -139,13 +146,12 @@ probability = model.predict_proba(inputs_scaled)[0]
 if st.button("🔮 Predict Wine Quality"):
     if prediction == 1:
         st.markdown(
-            f'<div class="result-card good">✅ This wine is predicted to be <b>Good Quality</b><br><br>Confidence: {probability[1]*100:.2f}%</div>',
+            f'<div class="result-card good">🍇 Excellent Choice!<br>This wine is <b>Good Quality</b><br><br>Confidence: {probability[1]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f'<div class="result-card bad">❌ This wine is predicted to be <b>Not Good Quality</b><br><br>Confidence: {probability[0]*100:.2f}%</div>',
+            f'<div class="result-card bad">🍇 Not Quite There...<br>This wine is <b>Not Good Quality</b><br><br>Confidence: {probability[0]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
-
 
