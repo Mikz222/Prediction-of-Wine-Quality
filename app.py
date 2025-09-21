@@ -16,24 +16,41 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
+        /* Global App Styling */
         .stApp {
             background-color: #f0f2f5;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #1c1e21;
         }
+
+        /* Navbar */
+        .top-bar {
+            background-color: #1877f2;
+            color: white;
+            padding: 18px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: 600;
+            border-radius: 0 0 10px 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Card Container */
         .main-card {
-            max-width: 600px;
-            margin: 40px auto;
+            max-width: 650px;
+            margin: auto;
             padding: 40px;
             background: #ffffff;
             border-radius: 12px;
-            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0px 3px 10px rgba(0,0,0,0.15);
         }
-        h1 {
-            font-size: 34px !important;
+
+        /* Headings */
+        h2 {
+            font-size: 28px !important;
             text-align: center;
-            color: #1877f2 !important;
-            margin-bottom: 10px;
+            color: #1c1e21 !important;
+            margin-bottom: 8px;
         }
         p.subtitle {
             text-align: center;
@@ -41,25 +58,31 @@ st.markdown("""
             color: #606770;
             margin-bottom: 25px;
         }
+
+        /* Select Boxes */
         .stSelectbox label {
             font-weight: 500 !important;
             color: #050505 !important;
         }
+
+        /* Button */
         .stButton>button {
             background-color: #1877f2;
             color: white;
-            border-radius: 6px;
-            height: 48px;
+            border-radius: 8px;
+            height: 50px;
             width: 100%;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             border: none;
         }
         .stButton>button:hover {
             background-color: #166fe5;
         }
+
+        /* Result Card */
         .result-card {
-            padding: 18px;
+            padding: 20px;
             margin-top: 25px;
             border-radius: 10px;
             text-align: center;
@@ -79,11 +102,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# ================== App Layout ==================
+# ================== Top Navbar ==================
+st.markdown("<div class='top-bar'>🍷 Wine Quality Predictor</div>", unsafe_allow_html=True)
 
+# ================== App Card ==================
+st.markdown("<div class='main-card'>", unsafe_allow_html=True)
 
-st.markdown("<h1>Wine Quality Predictor 🍷</h1>", unsafe_allow_html=True)
-st.markdown("<p class='subtitle'>Select the values below and see if your wine passes the test</p>", unsafe_allow_html=True)
+st.markdown("<h2>Predict Your Wine’s Quality</h2>", unsafe_allow_html=True)
+st.markdown("<p class='subtitle'>Select the attributes below to check if your wine is good quality.</p>", unsafe_allow_html=True)
 
 # ================== Dropdown Inputs ==================
 fixed_acidity = st.selectbox("Fixed Acidity", [round(x,1) for x in np.arange(4.0, 16.1, 0.5)])
@@ -113,4 +139,3 @@ if st.button("🔮 Predict Wine Quality"):
         st.markdown(f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
-
