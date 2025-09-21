@@ -8,32 +8,26 @@ scaler = joblib.load("artifacts/scaler.pkl")
 
 st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="centered")
 
-# --- Custom CSS for premium UI ---
+# --- Custom Dark Theme CSS ---
 st.markdown(
     """
     <style>
-    /* Global font */
-    html, body, [class*="css"] {
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    /* Center content */
-    .block-container {
-        max-width: 750px;
-        padding-top: 2rem;
-        margin: auto;
+    /* Background */
+    .main, .block-container {
+        background-color: #1E1E1E;
+        color: #EAEAEA;
     }
 
     /* Title */
     h2 {
-        color: #8B0000;
+        color: #FF4B4B;
         text-align: center;
         font-weight: 800;
         margin-bottom: 0.3em;
     }
     p.subtitle {
         text-align: center;
-        color: #666;
+        color: #BBBBBB;
         font-size: 1.1em;
         margin-bottom: 2em;
     }
@@ -41,30 +35,28 @@ st.markdown(
     /* Slider design */
     div[data-baseweb="slider"] > div {
         height: 10px !important;
+        background: #444;
     }
     div[data-baseweb="slider"] span {
         height: 24px !important;
         width: 24px !important;
-        background: linear-gradient(135deg, #8B0000, #A52A2A) !important;
+        background: linear-gradient(135deg, #B22222, #FF4B4B) !important;
         border: 2px solid #fff !important;
-        box-shadow: 0px 2px 8px rgba(0,0,0,0.3);
-    }
-    div[data-baseweb="slider"] div[role="slider"]::before {
-        background: #8B0000 !important;
+        box-shadow: 0px 2px 8px rgba(0,0,0,0.4);
     }
 
-    /* Input section card */
+    /* Input card */
     .input-card {
-        background: #fff;
+        background: #2A2A2A;
         padding: 2em;
         border-radius: 15px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.08);
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
         margin-bottom: 2em;
     }
 
-    /* Predict button */
+    /* Button */
     .stButton > button {
-        background: linear-gradient(135deg, #8B0000, #A52A2A);
+        background: linear-gradient(135deg, #B22222, #8B0000);
         color: white;
         font-size: 18px;
         font-weight: 600;
@@ -75,29 +67,29 @@ st.markdown(
         transition: 0.3s;
     }
     .stButton > button:hover {
-        background: linear-gradient(135deg, #A52A2A, #8B0000);
+        background: linear-gradient(135deg, #8B0000, #B22222);
         transform: translateY(-2px);
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.35);
     }
 
-    /* Result card */
+    /* Result cards */
     .result-card {
         padding: 1.8em;
         margin-top: 1.5em;
         border-radius: 15px;
         text-align: center;
         font-size: 1.2em;
-        box-shadow: 0px 4px 14px rgba(0,0,0,0.12);
+        box-shadow: 0px 4px 14px rgba(0,0,0,0.35);
     }
     .good {
-        background: #f1f8f4;
-        color: #1b5e20;
-        border-left: 6px solid #43a047;
+        background: #1B3C29;
+        color: #4CAF50;
+        border-left: 6px solid #4CAF50;
     }
     .bad {
-        background: #fcebea;
-        color: #b71c1c;
-        border-left: 6px solid #e53935;
+        background: #3C1B1B;
+        color: #FF6B6B;
+        border-left: 6px solid #FF4B4B;
     }
 
     /* Footer */
@@ -116,7 +108,7 @@ st.markdown(
 st.markdown("<h2>🍷 Wine Quality Prediction</h2>", unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Adjust the sliders below and see if your wine is Good or Not Good</p>', unsafe_allow_html=True)
 
-# --- Input Section in Card ---
+# --- Input Section ---
 st.markdown('<div class="input-card">', unsafe_allow_html=True)
 
 fixed_acidity = st.slider("Fixed Acidity", 4.0, 15.0, 7.4)
@@ -131,9 +123,9 @@ pH = st.slider("pH", 2.5, 4.5, 3.3)
 sulphates = st.slider("Sulphates", 0.3, 2.0, 0.75)
 alcohol = st.slider("Alcohol", 8.0, 15.0, 12.5)
 
-st.markdown('</div>', unsafe_allow_html=True)  # close card
+st.markdown('</div>', unsafe_allow_html=True)
 
-# --- Collect input ---
+# --- Prediction ---
 inputs = [[
     fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
     chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
@@ -144,7 +136,6 @@ inputs_scaled = scaler.transform(inputs)
 prediction = model.predict(inputs_scaled)[0]
 probability = model.predict_proba(inputs_scaled)[0]
 
-# --- Prediction Button ---
 if st.button("🔮 Predict Wine Quality"):
     if prediction == 1:
         st.markdown(
@@ -157,5 +148,4 @@ if st.button("🔮 Predict Wine Quality"):
             unsafe_allow_html=True
         )
 
-# --- Footer ---
-st.markdown('<p class="footer">Made with ❤️ and Streamlit</p>', unsafe_allow_html=True)
+
