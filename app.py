@@ -1,3 +1,11 @@
+import streamlit as st
+import numpy as np
+import pickle
+
+# Load trained model
+model = pickle.load(open("wine_model.pkl", "rb"))
+
+# Custom CSS for dark modern UI
 st.markdown(
     """
     <style>
@@ -6,7 +14,7 @@ st.markdown(
         background: linear-gradient(160deg, #050505, #121212 90%) !important;
         color: #f5f5f5 !important;
         font-family: 'Segoe UI', sans-serif;
-        font-size: 18px; /* larger base font */
+        font-size: 18px;
     }
     .main {
         background: transparent !important;
@@ -124,3 +132,48 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+# Hero section
+st.markdown(
+    """
+    <div class="hero">
+        <h1>🍷 Wine Quality Predictor</h1>
+        <p>Adjust the sliders to test wine attributes and predict its quality.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Input sliders in glass card
+with st.container():
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+
+    fixed_acidity = st.slider("Fixed Acidity", 4.0, 16.0, 8.0)
+    volatile_acidity = st.slider("Volatile Acidity", 0.1, 1.5, 0.5)
+    citric_acid = st.slider("Citric Acid", 0.0, 1.0, 0.3)
+    residual_sugar = st.slider("Residual Sugar", 0.5, 15.0, 2.5)
+    chlorides = st.slider("Chlorides", 0.01, 0.2, 0.07)
+    free_sulfur_dioxide = st.slider("Free Sulfur Dioxide", 1, 72, 15)
+    total_sulfur_dioxide = st.slider("Total Sulfur Dioxide", 6, 289, 46)
+    density = st.slider("Density", 0.9900, 1.0040, 0.9960)
+    pH = st.slider("pH", 2.8, 4.0, 3.3)
+    sulphates = st.slider("Sulphates", 0.3, 2.0, 0.65)
+    alcohol = st.slider("Alcohol", 8.0, 15.0, 10.0)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Prediction
+if st.button("🍷 Predict Wine Quality"):
+    features = np.array([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+                          chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
+                          density, pH, sulphates, alcohol]])
+    prediction = model.predict(features)
+    proba = model.predict_proba(features).max() * 100
+
+    if prediction[0] == 1:
+        st.markdown(f'<div class="result-card good">✅ This wine is predicted to be<br>Good Quality<br>Confidence: {proba:.2f}%</div>', unsafe_allow_html=True)
+    else:
+        st.markdown(f'<div class="result-card bad">❌ Unfortunately, this wine is predicted to be<br>Not Good Quality<br>Confidence: {proba:.2f}%</div>', unsafe_allow_html=True)
+
+# Footer
+st.markdown('<div class="footer">🍷 Powered by Machine Learning</div>', unsafe_allow_html=True)
