@@ -39,7 +39,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-st.title("🍷G Wine Quality App")
+st.title("🍷Wine Quality App")
 
 # Two-column layout (5:6 ratio)
 col1, col2 = st.columns([5, 6])
@@ -63,5 +63,6 @@ with col2:
 if st.button("💖✨ Predict Wine Quality ✨💖"):
     st.markdown('<div class="result-box">🍷 Your wine is likely to be of <span style="color:#ff4d79;">GOOD QUALITY</span> 💎✨</div>', unsafe_allow_html=True)
     st.markdown("🌸 Extra Results: This wine has balanced acidity, sweet notes, and perfect alcohol levels for a *premium taste* 💕🍇✨")
+
 
 
