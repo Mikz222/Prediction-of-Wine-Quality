@@ -16,27 +16,28 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
-        /* Background gradient (wine inspired) */
+        /* Background */
         .stApp {
             background: linear-gradient(160deg, #2c0f0f, #0d0d0d 90%);
             color: #ffffff;
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Center everything */
+        /* Remove default Streamlit padding */
         .block-container {
+            padding-top: 0rem !important;
+            padding-bottom: 2rem !important;
             max-width: 1200px;
             margin: auto;
-            padding-top: 3vh;
-            padding-bottom: 5vh;
         }
 
         /* Title */
         h1 {
-            font-size: 60px !important;
+            font-size: 56px !important;
             text-align: center;
             font-weight: 900;
-            margin-bottom: 0.3em;
+            margin-top: 1rem;
+            margin-bottom: 0.2em;
             background: linear-gradient(90deg, #ff4b4b, #ffaaaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -52,30 +53,30 @@ st.markdown("""
 
         /* Glassmorphism card */
         .glass-card {
-            background: rgba(255, 255, 255, 0.07);
-            border-radius: 18px;
-            padding: 25px;
-            box-shadow: 0px 8px 30px rgba(0,0,0,0.9);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0px 6px 18px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
             margin-bottom: 20px;
         }
 
-        /* Sliders */
+        /* Clean sliders (flat style, no glow) */
         div[data-baseweb="slider"] > div {
-            height: 16px !important;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
+            height: 8px !important;
+            background: #444 !important;
+            border-radius: 6px;
         }
         div[data-baseweb="slider"] span {
-            height: 28px !important;
-            width: 28px !important;
+            height: 18px !important;
+            width: 18px !important;
             background: #ff4b4b !important;
-            border: 3px solid white !important;
+            border: none !important;
             border-radius: 50%;
-            box-shadow: 0px 0px 15px #ff4b4b;
+            box-shadow: none !important;
         }
         label {
-            font-size: 20px !important;
+            font-size: 18px !important;
             font-weight: 600 !important;
             color: #f5f5f5 !important;
         }
@@ -84,42 +85,40 @@ st.markdown("""
         .stButton > button {
             background: linear-gradient(135deg, #ff4b4b, #b22222);
             color: white !important;
-            font-size: 26px !important;
+            font-size: 22px !important;
             font-weight: 700 !important;
-            padding: 1em 2em;
-            border-radius: 14px;
+            padding: 0.9em 2em;
+            border-radius: 12px;
             border: none;
             width: 100%;
-            transition: all 0.3s ease-in-out;
-            box-shadow: 0px 5px 20px rgba(255,75,75,0.6);
+            transition: all 0.25s ease-in-out;
+            box-shadow: 0px 4px 12px rgba(255,75,75,0.4);
         }
         .stButton > button:hover {
             transform: scale(1.05);
-            box-shadow: 0px 8px 30px rgba(255,75,75,0.9);
+            box-shadow: 0px 6px 20px rgba(255,75,75,0.7);
         }
 
         /* Result cards */
         .result-card {
-            padding: 2em;
+            padding: 1.8em;
             margin: 2em auto;
-            border-radius: 20px;
+            border-radius: 16px;
             text-align: center;
-            font-size: 2em !important;
-            font-weight: 800 !important;
-            width: 85%;
-            animation: fadeIn 1s ease-in-out;
+            font-size: 1.6em !important;
+            font-weight: 700 !important;
+            width: 80%;
+            animation: fadeIn 0.8s ease-in-out;
         }
         .good {
-            background: rgba(0, 128, 0, 0.2);
-            color: #98fb98 !important;
-            border: 3px solid #32cd32;
-            box-shadow: 0px 0px 25px rgba(50,205,50,0.7);
+            background: rgba(0, 128, 0, 0.15);
+            color: #90ee90 !important;
+            border: 2px solid #32cd32;
         }
         .bad {
-            background: rgba(178,34,34,0.2);
+            background: rgba(178,34,34,0.15);
             color: #ff9999 !important;
-            border: 3px solid #ff4b4b;
-            box-shadow: 0px 0px 25px rgba(255,75,75,0.7);
+            border: 2px solid #ff4b4b;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -129,8 +128,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ================== App Header ==================
-st.markdown("<h1>Wine Quality Predictor 🍷</h1>", unsafe_allow_html=True)
-st.markdown("<p class='subheader'>Adjust the chemistry sliders below and predict your wine's quality.</p>", unsafe_allow_html=True)
+st.markdown("<h1>Wine Quality Predictor</h1>", unsafe_allow_html=True)
+st.markdown("<p class='subheader'>Adjust the sliders below and see if your wine passes the test 🍷</p>", unsafe_allow_html=True)
 
 # ================== Input Layout ==================
 col1, col2 = st.columns(2)
