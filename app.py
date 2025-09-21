@@ -6,33 +6,33 @@ st.set_page_config(page_title= "Wine Quality App", layout="wide")
 
 st.markdown("""
     <style>
-        /*  Fix Dropdown Rounded Corners */
+        /* 🎀 Clean Rounded Dropdown (No Highlights) */
         .stSelectbox div[data-baseweb="select"] {
             border-radius: 25px !important;
             border: 2px solid #f78fb3 !important;
             background: #fff0f6 !important;
             font-size: 16px !important;
-            box-shadow: 0px 3px 6px rgba(255, 120, 180, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0px 3px 6px rgba(255, 120, 180, 0.2);
         }
-
+        /* 🚫 Remove highlight completely */
         .stSelectbox div[data-baseweb="select"]:focus,
         .stSelectbox div[data-baseweb="select"]:hover {
             outline: none !important;
-            background: #ffe6f0 !important;
-            border: 2px solid #ff6b9d !important;
-            border-radius: 25px !important;
-            box-shadow: 0px 4px 12px rgba(255, 105, 180, 0.5);
+            background: #fff0f6 !important;
+            border: 2px solid #f78fb3 !important;
+            box-shadow: none !important;
         }
-  
+        /* 🔮 Dropdown menu itself */
         .stSelectbox ul {
             border-radius: 20px !important;
             background: #fff0f6 !important;
-            border: 1px solid #ff9ff3 !important;
+            border: 1px solid #f78fb3 !important;
+        }
+        .stSelectbox ul li {
+            border-radius: 15px !important;
         }
         .stSelectbox ul li:hover {
             background: #ffd6eb !important;
-            border-radius: 15px !important;
             color: #d63384 !important;
         }
     </style>
@@ -63,6 +63,7 @@ with col2:
 if st.button("💖✨ Predict Wine Quality ✨💖"):
     st.markdown('<div class="result-box">🍷 Your wine is likely to be of <span style="color:#ff4d79;">GOOD QUALITY</span> 💎✨</div>', unsafe_allow_html=True)
     st.markdown("🌸 Extra Results: This wine has balanced acidity, sweet notes, and perfect alcohol levels for a *premium taste* 💕🍇✨")
+
 
 
 
