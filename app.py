@@ -161,22 +161,37 @@ if st.button("🔮 Predict Wine Quality"):
 
     if prediction == 1:
         st.markdown(
-            f"""
-            <div class='result-card good'>
-                <div class='result-title'>🍷 Good Quality Wine</div>
-                <div class='confidence'>Confidence: {probability[1]*100:.2f}%</div>
+            f"<div class='result-card good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", 
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            """
+            <div class='result-card' style='background:#f3f9ff; color:#0d47a1; border:1px solid #90caf9;'>
+                🥂 <b>Wine Insights:</b><br>
+                • Balanced acidity and sugar.<br>
+                • Great for serving at celebrations.<br>
+                • Recommended pairing: red meats, aged cheese.<br>
+                • Tip: Serve at ~16-18°C for best flavor.
             </div>
             """, unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f"""
-            <div class='result-card bad'>
-                <div class='result-title'>🚫 Not Good Quality Wine</div>
-                <div class='confidence'>Confidence: {probability[0]*100:.2f}%</div>
+            f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", 
+            unsafe_allow_html=True
+        )
+        st.markdown(
+            """
+            <div class='result-card' style='background:#fff8e1; color:#e65100; border:1px solid #ffb74d;'>
+                🍇 <b>Wine Insights:</b><br>
+                • High acidity or low alcohol may affect taste.<br>
+                • Try reducing volatile acidity & chlorides.<br>
+                • Improve fermentation for smoother finish.<br>
+                • Consider blending with richer wines.
             </div>
             """, unsafe_allow_html=True
         )
+
 
 
 
