@@ -11,12 +11,13 @@ st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layou
 st.markdown(
     """
     <style>
-    /* Fullscreen deep dark background */
-    .main {
+    /* Force fullscreen dark background */
+    .stApp {
         background: linear-gradient(160deg, #0a0a0a, #1a1a1a 90%) !important;
-        color: #f0f0f0;
-        min-height: 100vh;
-        font-family: 'Segoe UI', sans-serif;
+        color: #f0f0f0 !important;
+    }
+    .main {
+        background: transparent !important; /* remove white layer */
     }
 
     /* Hero header */
@@ -40,11 +41,11 @@ st.markdown(
 
     /* Glass card */
     .glass-card {
-        background: rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 18px;
         padding: 2em;
         box-shadow: 0px 10px 30px rgba(0,0,0,0.9);
-        backdrop-filter: blur(12px);
+        backdrop-filter: blur(10px);
         transition: transform 0.3s ease;
     }
     .glass-card:hover {
@@ -117,7 +118,7 @@ st.markdown(
         text-align: center;
         font-size: 0.9em;
         margin: 3em 0 1em 0;
-        color: #555;
+        color: #666;
     }
     </style>
     """,
@@ -188,6 +189,7 @@ if st.button("🔮 Predict Wine Quality"):
             f'<div class="result-card bad">⚠️ Needs Refinement...<br>This wine is <b>Not Good Quality</b> 🍷<br><br>Confidence: {probability[0]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
+
 
 
 
