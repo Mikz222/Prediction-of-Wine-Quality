@@ -16,14 +16,11 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
-        /* Global App Styling */
         .stApp {
             background-color: #f0f2f5;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #1c1e21;
         }
-
-        /* Navbar */
         .top-bar {
             background-color: #1877f2;
             color: white;
@@ -34,22 +31,9 @@ st.markdown("""
             border-radius: 0 0 10px 10px;
             margin-bottom: 30px;
         }
-
-        /* Card Container */
-        .main-card {
-            max-width: 650px;
-            margin: auto;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0px 3px 10px rgba(0,0,0,0.15);
-        }
-
-        /* Headings */
         h2 {
             font-size: 28px !important;
             text-align: center;
-            color: #1c1e21 !important;
             margin-bottom: 8px;
         }
         p.subtitle {
@@ -58,14 +42,10 @@ st.markdown("""
             color: #606770;
             margin-bottom: 25px;
         }
-
-        /* Select Boxes */
         .stSelectbox label {
             font-weight: 500 !important;
             color: #050505 !important;
         }
-
-        /* Button */
         .stButton>button {
             background-color: #1877f2;
             color: white;
@@ -79,25 +59,39 @@ st.markdown("""
         .stButton>button:hover {
             background-color: #166fe5;
         }
-
-        /* Result Card */
+        /* Result Cards */
         .result-card {
-            padding: 20px;
-            margin-top: 25px;
-            border-radius: 10px;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 14px;
             text-align: center;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            animation: fadeIn 0.6s ease-in-out;
         }
         .good {
-            background: #e7f3e7;
-            color: #2e7d32;
-            border: 1px solid #2e7d32;
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #1b5e20;
+            border: 2px solid #2e7d32;
         }
         .bad {
-            background: #fbeaea;
-            color: #d32f2f;
-            border: 1px solid #d32f2f;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: #b71c1c;
+            border: 2px solid #d32f2f;
+        }
+        .result-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .confidence {
+            font-size: 18px;
+            color: #333;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0; transform: translateY(15px);}
+            to {opacity: 1; transform: translateY(0);}
         }
     </style>
 """, unsafe_allow_html=True)
@@ -105,7 +99,7 @@ st.markdown("""
 # ================== Top Navbar ==================
 st.markdown("<div class='top-bar'>🍷 Wine Quality Predictor</div>", unsafe_allow_html=True)
 
-# ================== App Card ==================
+# ================== App Header ==================
 st.markdown("<h2>Predict Your Wine’s Quality</h2>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Select the attributes below to check if your wine is good quality.</p>", unsafe_allow_html=True)
 
@@ -132,9 +126,20 @@ if st.button("🔮 Predict Wine Quality"):
     probability = model.predict_proba(input_scaled)[0]
 
     if prediction == 1:
-        st.markdown(f"<div class='result-card good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div class='result-card good'>
+                <div class='result-title'>🍷 Good Quality Wine</div>
+                <div class='confidence'>Confidence: {probability[1]*100:.2f}%</div>
+            </div>
+            """, unsafe_allow_html=True
+        )
     else:
-        st.markdown(f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
-
-st.markdown("</div>", unsafe_allow_html=True)
-
+        st.markdown(
+            f"""
+            <div class='result-card bad'>
+                <div class='result-title'>🚫 Not Good Quality Wine</div>
+                <div class='confidence'>Confidence: {probability[0]*100:.2f}%</div>
+            </div>
+            """, unsafe_allow_html=True
+        )
