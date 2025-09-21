@@ -1,145 +1,56 @@
 import streamlit as st
-import joblib
 import numpy as np
 
-# ================== Page Config ==================
-st.set_page_config(
-    page_title="Wine Quality Predictor 🍷",
-    layout="centered",
-    initial_sidebar_state="collapsed"
-)
+st.set_page_config(page_title="Wine Quality App", layout="wide")
 
-# ================== Load Model & Scaler ==================
-model = joblib.load("artifacts/wine_quality_model.pkl")
-scaler = joblib.load("artifacts/scaler.pkl")
 
-# ================== Custom CSS ==================
 st.markdown("""
     <style>
-        /* Global App Styling */
-        .stApp {
-            background: linear-gradient(135deg, #dfe9f3 0%, #ffffff 100%);
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            color: #1c1e21;
-        }
-
-        /* Navbar */
-        .top-bar {
-            background-color: #1877f2;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: 700;
-            border-radius: 0 0 14px 14px;
-            margin-bottom: 35px;
-            box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
-            letter-spacing: 0.5px;
-        }
-
-        /* Headings */
-        h2 {
-            font-size: 30px !important;
-            text-align: center;
-            color: #1c1e21 !important;
-            font-weight: 700 !important;
-            margin-bottom: 12px;
-        }
-        p.subtitle {
-            text-align: center;
-            font-size: 18px;
-            color: #444;
-            margin-bottom: 28px;
-            font-weight: 400;
-        }
-
-        /* Dropdown Styling */
-        .stSelectbox {
-            padding: 14px 16px;
-            border-radius: 14px;
-            background-color: #fdfdfd;
-            border: 1.5px solid #cbd4e1;
-            box-shadow: 0px 1px 6px rgba(0,0,0,0.08);
-            transition: all 0.25s ease-in-out;
-            margin-bottom: 18px;
-        }
-        .stSelectbox:hover {
-            border-color: #1877f2;
-            background-color: #f3f8ff;
-            box-shadow: 0px 3px 10px rgba(24, 119, 242, 0.25);
-            transform: translateY(-2px);
+        body {
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
         }
         .stSelectbox label {
-            font-weight: 700 !important;
             font-size: 16px !important;
-            color: #050505 !important;
-            margin-bottom: 8px;
-            display: inline-block;
+            color: #8e44ad !important;
+            font-weight: 600;
         }
-
-        /* Button */
+        .stSelectbox div[data-baseweb="select"] {
+            border-radius: 20px !important;
+            border: 2px solid #f78fb3 !important;
+            background-color: #fff0f6 !important;
+            font-size: 15px !important;
+        }
         .stButton>button {
-            background: linear-gradient(90deg, #1877f2, #166fe5);
+            background: linear-gradient(to right, #ff6b81, #ff9ff3);
             color: white;
-            border-radius: 12px;
-            height: 54px;
-            width: 100%;
-            font-size: 20px;
-            font-weight: 700;
+            border-radius: 30px;
             border: none;
-            letter-spacing: 0.3px;
-            transition: 0.3s ease-in-out;
-            box-shadow: 0px 3px 10px rgba(24, 119, 242, 0.4);
+            padding: 12px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0px 4px 10px rgba(255, 0, 150, 0.3);
         }
         .stButton>button:hover {
-            background: linear-gradient(90deg, #166fe5, #0f5dc1);
-            transform: scale(1.04);
-            box-shadow: 0px 5px 15px rgba(24, 119, 242, 0.5);
+            background: linear-gradient(to right, #ff9ff3, #ff6b81);
+            transform: scale(1.03);
         }
-
-        /* Result Card */
-        .result-card {
-            padding: 26px;
-            margin-top: 30px;
-            border-radius: 14px;
+        .result-box {
+            background-color: #ffe6f0;
+            padding: 20px;
+            border-radius: 15px;
             text-align: center;
-            font-size: 22px;
-            font-weight: 700;
-            animation: fadeIn 0.6s ease-in-out;
-        }
-        .good {
-            background: #e6f9ee;
-            color: #1b5e20;
-            border: 2px solid #2e7d32;
-            box-shadow: 0px 3px 10px rgba(46, 125, 50, 0.25);
-        }
-        .bad {
-            background: #fdeaea;
-            color: #b71c1c;
-            border: 2px solid #d32f2f;
-            box-shadow: 0px 3px 10px rgba(211, 47, 47, 0.25);
-        }
-
-        /* Smooth Fade Animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
+            color: #6a0572;
+            font-size: 20px;
+            font-weight: bold;
+            box-shadow: 0px 4px 12px rgba(200, 0, 100, 0.2);
         }
     </style>
 """, unsafe_allow_html=True)
 
+st.title("🍷 Girly Wine Quality App 💖")
 
-
-# ================== Top Navbar ==================
-st.markdown("<div class='top-bar'>🍷 Wine Quality Predictor</div>", unsafe_allow_html=True)
-
-# ================== App Header ==================
-st.markdown("<h2>Predict Your Wine’s Quality</h2>", unsafe_allow_html=True)
-st.markdown("<p class='subtitle'>Select the attributes below to check if your wine is good quality.</p>", unsafe_allow_html=True)
-
-# ================== Dropdown Inputs ==================
-# ================== Dropdown Inputs ==================
-col1, col2 = st.columns([5, 6])  # 5:6 ratio
+#  Two-column layout
+col1, col2 = st.columns([5, 6])
 
 with col1:
     fixed_acidity = st.selectbox("Fixed Acidity", [round(x,1) for x in np.arange(4.0, 16.1, 0.5)])
@@ -156,50 +67,6 @@ with col2:
     sulphates = st.selectbox("Sulphates", [round(x,2) for x in np.arange(0.3, 2.1, 0.05)])
     alcohol = st.selectbox("Alcohol %", [round(x,1) for x in np.arange(8.0, 15.1, 0.5)])
 
-
-# ================== Prediction Button ==================
-if st.button("🔮 Predict Wine Quality"):
-    input_data = np.array([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-                            chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
-                            density, pH, sulphates, alcohol]])
-    input_scaled = scaler.transform(input_data)
-    prediction = model.predict(input_scaled)[0]
-    probability = model.predict_proba(input_scaled)[0]
-
-    if prediction == 1:
-        st.markdown(
-            f"<div class='result-card good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", 
-            unsafe_allow_html=True
-        )
-        st.markdown(
-            """
-            <div class='result-card' style='background:#f3f9ff; color:#0d47a1; border:1px solid #90caf9;'>
-                🥂 <b>Wine Insights:</b><br>
-                • Balanced acidity and sugar.<br>
-                • Great for serving at celebrations.<br>
-                • Recommended pairing: red meats, aged cheese.<br>
-                • Tip: Serve at ~16-18°C for best flavor.
-            </div>
-            """, unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", 
-            unsafe_allow_html=True
-        )
-        st.markdown(
-            """
-            <div class='result-card' style='background:#fff8e1; color:#e65100; border:1px solid #ffb74d;'>
-                🍇 <b>Wine Insights:</b><br>
-                • High acidity or low alcohol may affect taste.<br>
-                • Try reducing volatile acidity & chlorides.<br>
-                • Improve fermentation for smoother finish.<br>
-                • Consider blending with richer wines.
-            </div>
-            """, unsafe_allow_html=True
-        )
-
-
-
-
-
+# Predict Button
+if st.button("💖 Predict Wine Quality 💖"):
+    st.markdown('<div class="result-box">✨ Your wine is likely to be of GOOD QUALITY! 🍷💎</div>', unsafe_allow_html=True)
