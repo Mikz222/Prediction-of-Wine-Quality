@@ -4,7 +4,7 @@ import numpy as np
 
 # ================== Page Config ==================
 st.set_page_config(
-    page_title="💖 Wine Quality Predictor",
+    page_title="Wine Quality Predictor",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -114,8 +114,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ================== App Header ==================
-st.markdown("<h1>💖 Wine Quality Predictor</h1>", unsafe_allow_html=True)
-st.markdown("<p>Pick your wine details, girl, and let’s see if it’s fabulous 🍷✨</p>", unsafe_allow_html=True)
+st.markdown("<h1>Wine Quality Predictor</h1>", unsafe_allow_html=True)
+st.markdown("<p>Pick your wine details, girl, and let’s see if it’s fabulous 🍷</p>", unsafe_allow_html=True)
 
 # ================== Dropdown Inputs ==================
 fixed_acidity = st.selectbox("Fixed Acidity", [4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0])
@@ -131,7 +131,7 @@ sulphates = st.selectbox("Sulphates", [0.3, 0.5, 0.7, 1.0, 1.5])
 alcohol = st.selectbox("Alcohol %", [8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0])
 
 # ================== Prediction ==================
-if st.button("💅✨ Predict My Wine ✨💅"):
+if st.button("✨ Predict My Wine ✨"):
     input_data = np.array([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
                             chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
                             density, pH, sulphates, alcohol]])
@@ -142,12 +142,12 @@ if st.button("💅✨ Predict My Wine ✨💅"):
     # Quality Result
     if prediction == 1:
         st.markdown(
-            f"<div class='result-card good'>🌸✨ Premium Babe Wine! ✨🌸<br>Good Quality 💖🍷<br>Confidence: {probability[1]*100:.2f}%</div>",
+            f"<div class='result-card good'>✨ Premium Wine! ✨<br>Good Quality 🍷<br>Confidence: {probability[1]*100:.2f}%</div>",
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f"<div class='result-card bad'>🙅‍♀️ Not Slaying Yet...<br>Needs a Glow-Up 💔🍷<br>Confidence: {probability[0]*100:.2f}%</div>",
+            f"<div class='result-card bad'>🙅‍♀️ Not Slaying Yet...<br>Needs a Glow-Up 🍷<br>Confidence: {probability[0]*100:.2f}%</div>",
             unsafe_allow_html=True
         )
 
@@ -157,6 +157,7 @@ if st.button("💅✨ Predict My Wine ✨💅"):
             <b>🍬 Sweetness Level:</b> Based on Residual Sugar → Higher sugar = sweeter wine.<br>
             <b>🍋 Acidity Vibe:</b> Fixed & Volatile Acidity affect freshness.<br>
             <b>🍸 Alcohol Strength:</b> Higher % makes wine bolder.<br>
-            <b>🌷 Overall Balance:</b> Perfect wines slay in all categories, babe! 💅✨
+            <b>🌷 Overall Balance:</b> Perfect wines slay in all categories! ✨
         </div>
     """, unsafe_allow_html=True)
+
