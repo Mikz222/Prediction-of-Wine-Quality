@@ -2,132 +2,57 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# ------------------- LOAD MODEL + SCALER -------------------
+# Load artifacts
 model = joblib.load("artifacts/wine_quality_model.pkl")
 scaler = joblib.load("artifacts/scaler.pkl")
 
-# ------------------- STREAMLIT SETTINGS -------------------
-st.set_page_config(
-    page_title="Wine Quality Prediction",
-    page_icon="🍷",
-    layout="wide"
+st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="centered")
+
+# Title
+st.markdown(
+    """
+    <h2 style="text-align:center; color:#8B0000;">
+        🍷 Wine Quality Prediction
+    </h2>
+    <p style="text-align:center; color:gray;">
+        Adjust the sliders below and see if your wine is Good or Not Good.
+    </p>
+    """,
+    unsafe_allow_html=True
 )
 
-# ------------------- MAIN UI -------------------
-st.title("🍷 Wine Quality Prediction Dashboard")
-st.markdown("<h3 style='color:#8B0000;'>A refined tool for predicting premium wine quality</h3>", unsafe_allow_html=True)
+# Sliders in main page (centered)
+st.markdown("<br>", unsafe_allow_html=True)  # spacing
 
-st.markdown("""
-Welcome to the **Wine Quality Prediction App**!  
-This tool uses a **Random Forest Classifier** trained on cleaned and balanced wine data.  
-Use the sidebar to set wine chemistry attributes and discover if your wine is of premium quality.  
-""")
+fixed_acidity = st.slider("Fixed Acidity", 4.0, 15.0, 7.4)
+volatile_acidity = st.slider("Volatile Acidity", 0.1, 1.5, 0.3)
+citric_acid = st.slider("Citric Acid", 0.0, 1.0, 0.5)
+residual_sugar = st.slider("Residual Sugar", 0.5, 10.0, 2.5)
+chlorides = st.slider("Chlorides", 0.01, 0.2, 0.07)
+free_sulfur_dioxide = st.slider("Free Sulfur Dioxide", 1, 72, 30)
+total_sulfur_dioxide = st.slider("Total Sulfur Dioxide", 6, 289, 100)
+density = st.slider("Density", 0.990, 1.004, 0.995)
+pH = st.slider("pH", 2.5, 4.5, 3.3)
+sulphates = st.slider("Sulphates", 0.3, 2.0, 0.75)
+alcohol = st.slider("Alcohol", 8.0, 15.0, 12.5)
 
-# ------------------- CUSTOM STYLE -------------------
-st.markdown("""
-    <style>
-    /* Background */
-    .main {
-        background-color: #FAF3E0;  /* soft cream */
-    }
-    /* Title */
-    h1, h2, h3 {
-        color: #4B0000;
-        font-family: 'Georgia', serif;
-    }
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background-color: #F5E0C3; /* warm beige */
-    }
-    section[data-testid="stSidebar"] .stSlider label, 
-    section[data-testid="stSidebar"] .stNumberInput label {
-        color: #4B0000;
-    }
-    /* Buttons */
-    .stButton>button {
-        width: 100%;
-        background: linear-gradient(90deg, #8B0000, #B22222);
-        color: white;
-        border-radius: 12px;
-        height: 3em;
-        font-size: 16px;
-        border: none;
-    }
-    .stButton>button:hover {
-        background: linear-gradient(90deg, #B22222, #8B0000);
-        color: #FFD700;
-    }
-    /* Result Cards */
-    .result-card {
-        padding: 20px;
-        border-radius: 15px;
-        text-align: center;
-        margin-top: 20px;
-        font-size: 22px;
-        font-weight: bold;
-        font-family: 'Trebuchet MS', sans-serif;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
-    }
-    .good {
-        background-color: #FFF9E6;
-        color: #155724;
-        border: 3px solid #FFD700;
-    }
-    .bad {
-        background-color: #FCE8E6;
-        color: #721c24;
-        border: 3px solid #B22222;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# Collect input
+inputs = [[
+    fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
+    chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
+    density, pH, sulphates, alcohol
+]]
 
-# ------------------- SIDEBAR -------------------
-st.sidebar.title("⚙️ Input Wine Measurements")
-st.sidebar.markdown("✨ Use the sliders to adjust the wine attributes")
+# Scale input
+inputs_scaled = scaler.transform(inputs)
 
-fixed_acidity = st.sidebar.slider("Fixed Acidity", 4.0, 16.0, 7.4)
-volatile_acidity = st.sidebar.slider("Volatile Acidity", 0.0, 1.5, 0.7)
-citric_acid = st.sidebar.slider("Citric Acid", 0.0, 1.0, 0.0)
-residual_sugar = st.sidebar.slider("Residual Sugar", 0.0, 15.0, 1.9)
-chlorides = st.sidebar.slider("Chlorides", 0.01, 0.2, 0.076)
-free_sulfur_dioxide = st.sidebar.slider("Free Sulfur Dioxide", 0.0, 80.0, 11.0)
-total_sulfur_dioxide = st.sidebar.slider("Total Sulfur Dioxide", 0.0, 300.0, 34.0)
-density = st.sidebar.slider("Density", 0.990, 1.005, 0.9978)
-pH = st.sidebar.slider("pH", 2.5, 4.5, 3.3)
-sulphates = st.sidebar.slider("Sulphates", 0.0, 2.0, 0.56)
-alcohol = st.sidebar.slider("Alcohol", 8.0, 15.0, 9.4)
+# Predict
+prediction = model.predict(inputs_scaled)[0]
+probability = model.predict_proba(inputs_scaled)[0]
 
-# ------------------- PREDICTION -------------------
-if st.sidebar.button("🍇 Predict Quality"):
-    features = [[
-        fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
-        chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
-        density, pH, sulphates, alcohol
-    ]]
-    
-    # Apply scaler before prediction
-    features_scaled = scaler.transform(features)
-    prediction = model.predict(features_scaled)[0]
-    proba = model.predict_proba(features_scaled)[0][1]
-
-    # Result card
+# Button for prediction
+if st.button("🔮 Predict Quality", use_container_width=True):
     if prediction == 1:
-        st.markdown(
-            f"<div class='result-card good'>✅ Excellent! This wine is predicted to be <br><span style='font-size:28px;'>Good Quality 🍷</span><br>Confidence: {proba*100:.2f}%</div>",
-            unsafe_allow_html=True
-        )
+        st.success(f"✅ This wine is predicted to be **Good Quality** \n\n Confidence: {probability[1]*100:.2f}%")
     else:
-        st.markdown(
-            f"<div class='result-card bad'>❌ Unfortunately, this wine is predicted to be <br><span style='font-size:28px;'>Not Good Quality</span><br>Confidence: {(1-proba)*100:.2f}%</div>",
-            unsafe_allow_html=True
-        )
-
-    # Show entered values
-    st.markdown("### 📌 Your Entered Measurements")
-    df = pd.DataFrame(features, columns=[
-        "Fixed Acidity", "Volatile Acidity", "Citric Acid", "Residual Sugar", 
-        "Chlorides", "Free SO₂", "Total SO₂", "Density", "pH", "Sulphates", "Alcohol"
-    ])
-    st.dataframe(df, use_container_width=True)
-
-
+        st.error(f"❌ This wine is predicted to be **Not Good Quality** \n\n Confidence: {probability[0]*100:.2f}%")
