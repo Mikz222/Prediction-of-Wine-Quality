@@ -6,16 +6,24 @@ import joblib
 model = joblib.load("artifacts/wine_quality_model.pkl")
 scaler = joblib.load("artifacts/scaler.pkl")
 
-st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="centered")
+st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="wide")
 
-# --- Custom CSS for Modern Premium UI ---
+# --- Custom CSS for Fullscreen Premium UI ---
 st.markdown(
     """
     <style>
-    /* Background gradient */
-    .main, .block-container {
-        background: linear-gradient(135deg, #2a0a0a 0%, #0d0d0d 100%);
+    /* Remove default padding */
+    .block-container {
+        padding: 0 !important;
+        margin: 0 auto;
+        max-width: 100% !important;
+    }
+
+    /* Fullscreen background */
+    .main {
+        background: linear-gradient(135deg, #2a0a0a 0%, #0d0d0d 100%) !important;
         color: #f5f5f5;
+        min-height: 100vh;
     }
 
     /* Title */
@@ -27,6 +35,7 @@ st.markdown(
     h2 {
         color: #ffcccc;
         margin-bottom: 0.2em;
+        padding-top: 1em;
     }
     p.subtitle {
         text-align: center;
@@ -35,39 +44,40 @@ st.markdown(
         margin-bottom: 2em;
     }
 
-    /* Glassmorphic card */
+    /* Glassmorphic input card */
     .glass-card {
         background: rgba(255, 255, 255, 0.08);
-        padding: 2em;
+        padding: 3em;
         border-radius: 18px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        backdrop-filter: blur(8px);
-        margin-bottom: 2em;
+        box-shadow: 0 4px 25px rgba(0,0,0,0.5);
+        backdrop-filter: blur(10px);
+        width: 80%;
+        margin: 0 auto 2em auto;
     }
 
     /* Sliders */
     div[data-baseweb="slider"] > div {
-        height: 10px !important;
+        height: 12px !important;
         background: rgba(255,255,255,0.15);
-        border-radius: 6px;
+        border-radius: 8px;
     }
     div[data-baseweb="slider"] span {
-        height: 22px !important;
-        width: 22px !important;
+        height: 26px !important;
+        width: 26px !important;
         background: #ff4b4b !important;
         border: 2px solid white !important;
         border-radius: 50%;
-        box-shadow: 0px 0px 10px #ff4b4b;
+        box-shadow: 0px 0px 12px #ff4b4b;
     }
 
     /* Predict button */
     .stButton > button {
         background: linear-gradient(90deg, #b22222, #ff4b4b);
         color: white;
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
-        padding: 0.7em 1.4em;
-        border-radius: 10px;
+        padding: 0.8em 1.6em;
+        border-radius: 12px;
         border: none;
         width: 100%;
         transition: 0.3s;
@@ -75,26 +85,27 @@ st.markdown(
     .stButton > button:hover {
         background: linear-gradient(90deg, #ff4b4b, #b22222);
         transform: scale(1.02);
-        box-shadow: 0px 4px 15px rgba(255,75,75,0.5);
+        box-shadow: 0px 4px 20px rgba(255,75,75,0.6);
     }
 
     /* Result card */
     .result-card {
-        padding: 2em;
-        margin-top: 1.5em;
-        border-radius: 18px;
+        padding: 2.5em;
+        margin: 2em auto;
+        border-radius: 20px;
         text-align: center;
-        font-size: 1.3em;
+        font-size: 1.4em;
         font-weight: 600;
-        box-shadow: 0px 4px 20px rgba(0,0,0,0.45);
+        box-shadow: 0px 6px 25px rgba(0,0,0,0.5);
+        width: 60%;
     }
     .good {
-        background: rgba(34,139,34,0.15);
+        background: rgba(34,139,34,0.2);
         color: #90ee90;
         border: 2px solid #90ee90;
     }
     .bad {
-        background: rgba(178,34,34,0.15);
+        background: rgba(178,34,34,0.2);
         color: #ff7f7f;
         border: 2px solid #ff4b4b;
     }
@@ -102,8 +113,8 @@ st.markdown(
     /* Footer */
     .footer {
         text-align: center;
-        font-size: 0.85em;
-        margin-top: 2em;
+        font-size: 0.9em;
+        margin: 3em 0 1em 0;
         color: #aaa;
     }
     </style>
@@ -155,3 +166,5 @@ if st.button("🔮 Predict Wine Quality"):
             unsafe_allow_html=True
         )
 
+# --- Footer ---
+st.markdown('<p class="footer">Made with ❤️ for Mr. Sanborn • Powered by Streamlit</p>', unsafe_allow_html=True)
