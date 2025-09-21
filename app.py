@@ -16,97 +16,96 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
-        /* Fullscreen background */
+        /* Base page */
         .stApp {
-            background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #262626);
-            color: #ffffff;
-            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5; /* FB style light gray */
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            color: #1c1e21;
         }
 
-        /* Centered container */
-        .main-container {
-            max-width: 650px;
-            margin: auto;
-            padding: 40px 50px;
-            background: rgba(0,0,0,0.6);
-            border-radius: 18px;
-            box-shadow: 0px 8px 30px rgba(0,0,0,0.85);
+        /* Centered white card */
+        .main-card {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 40px 40px 50px 40px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Headers */
+        /* Header */
         h1 {
-            color: #ff4d4d !important;
-            font-size: 48px !important;
+            font-size: 36px !important;
             text-align: center;
-            margin-bottom: 8px;
+            color: #1877f2 !important; /* FB blue */
+            margin-bottom: 10px;
         }
         p.subtitle {
             text-align: center;
-            font-size: 18px;
-            color: #cccccc;
+            font-size: 16px;
+            color: #606770;
             margin-bottom: 25px;
         }
 
         /* Sliders */
         .stSlider label {
-            font-size: 16px !important;
-            color: #ffffff !important;
+            font-size: 15px !important;
+            font-weight: 500 !important;
+            color: #050505 !important;
         }
         div[data-baseweb="slider"] > div {
-            background: #444 !important;  /* track */
-            height: 8px;
-            border-radius: 4px;
+            background: #ddd !important;
+            height: 6px;
+            border-radius: 6px;
         }
         div[data-baseweb="slider"] span {
-            background: #ff4d4d !important;  /* handle */
-            border: 2px solid white;
-            height: 22px;
-            width: 22px;
+            background: #1877f2 !important;
+            border: none;
+            height: 18px;
+            width: 18px;
             border-radius: 50%;
         }
 
         /* Button */
         .stButton>button {
-            background-color: #ff4d4d;
+            background-color: #1877f2;
             color: white;
-            border-radius: 12px;
-            height: 55px;
+            border-radius: 6px;
+            height: 48px;
             width: 100%;
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 16px;
+            font-weight: 600;
             border: none;
-            box-shadow: 0px 4px 12px rgba(255,77,77,0.4);
-            transition: 0.3s;
+            transition: background-color 0.3s;
         }
         .stButton>button:hover {
-            background-color: #e63939;
-            transform: scale(1.02);
+            background-color: #166fe5;
         }
 
         /* Result Cards */
         .result-card {
-            padding: 25px;
-            margin-top: 30px;
-            border-radius: 14px;
+            padding: 18px;
+            margin-top: 25px;
+            border-radius: 10px;
             text-align: center;
-            font-size: 22px;
-            font-weight: bold;
+            font-size: 18px;
+            font-weight: 600;
         }
         .good {
-            background: rgba(0, 128, 0, 0.15);
-            color: #2ecc71;
-            border: 2px solid #2ecc71;
+            background: #e7f3e7;
+            color: #2e7d32;
+            border: 1px solid #2e7d32;
         }
         .bad {
-            background: rgba(178, 34, 34, 0.15);
-            color: #ff4d4d;
-            border: 2px solid #ff4d4d;
+            background: #fbeaea;
+            color: #d32f2f;
+            border: 1px solid #d32f2f;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ================== App Layout ==================
-st.markdown("<div class='main-container'>", unsafe_allow_html=True)
+st.markdown("<div class='main-card'>", unsafe_allow_html=True)
 
 st.markdown("<h1>Wine Quality Predictor 🍷</h1>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Adjust the sliders below and see if your wine passes the test</p>", unsafe_allow_html=True)
@@ -125,7 +124,7 @@ sulphates = st.slider("Sulphates", 0.3, 2.0, 0.65)
 alcohol = st.slider("Alcohol %", 8.0, 15.0, 10.0)
 
 # ================== Prediction Button ==================
-if st.button("🍷 Predict Wine Quality"):
+if st.button("🔮 Predict Wine Quality"):
     input_data = np.array([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
                             chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
                             density, pH, sulphates, alcohol]])
