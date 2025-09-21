@@ -11,10 +11,10 @@ st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layou
 st.markdown(
     """
     <style>
-    /* Full background */
+    /* Fullscreen dark gradient background */
     .main {
-        background: radial-gradient(circle at top left, #3c0d0d, #0d0d0d 70%) !important;
-        color: #f5f5f5;
+        background: linear-gradient(135deg, #0d0d0d, #1a0000 80%) !important;
+        color: #f0f0f0;
         min-height: 100vh;
         font-family: 'Segoe UI', sans-serif;
     }
@@ -25,7 +25,7 @@ st.markdown(
         padding: 3em 1em 2em 1em;
     }
     .hero h1 {
-        font-size: 3em;
+        font-size: 3.2em;
         font-weight: 800;
         background: linear-gradient(90deg, #ff4b4b, #ffcccc);
         -webkit-background-clip: text;
@@ -33,30 +33,29 @@ st.markdown(
         margin-bottom: 0.2em;
     }
     .hero p {
-        color: #ddd;
-        font-size: 1.2em;
+        color: #aaa;
+        font-size: 1.1em;
         margin-top: 0;
     }
 
     /* Glass card */
     .glass-card {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 18px;
         padding: 2em;
-        box-shadow: 0px 8px 30px rgba(0,0,0,0.6);
-        backdrop-filter: blur(12px);
-        animation: float 6s ease-in-out infinite;
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.8);
+        backdrop-filter: blur(15px);
+        transition: transform 0.3s ease;
     }
-    @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-6px); }
+    .glass-card:hover {
+        transform: scale(1.01);
     }
 
     /* Sliders */
     div[data-baseweb="slider"] > div {
         height: 14px !important;
-        background: rgba(255,255,255,0.15);
-        border-radius: 10px;
+        background: rgba(255,255,255,0.12);
+        border-radius: 12px;
     }
     div[data-baseweb="slider"] span {
         height: 28px !important;
@@ -73,7 +72,7 @@ st.markdown(
         color: white;
         font-size: 20px;
         font-weight: 700;
-        padding: 0.8em 1.6em;
+        padding: 0.9em 1.6em;
         border-radius: 14px;
         border: none;
         width: 100%;
@@ -87,29 +86,29 @@ st.markdown(
 
     /* Result card */
     .result-card {
-        padding: 2.5em;
+        padding: 2em;
         margin: 2em auto;
         border-radius: 20px;
         text-align: center;
         font-size: 1.5em;
         font-weight: 700;
-        width: 65%;
+        width: 70%;
         animation: fadeIn 0.8s ease-in-out;
     }
     .good {
-        background: rgba(50,205,50,0.2);
-        color: #98fb98;
-        border: 2px solid #90ee90;
-        box-shadow: 0px 0px 20px rgba(50,205,50,0.5);
+        background: rgba(0, 128, 0, 0.15);
+        color: #90ee90;
+        border: 2px solid #32cd32;
+        box-shadow: 0px 0px 25px rgba(50,205,50,0.5);
     }
     .bad {
-        background: rgba(178,34,34,0.2);
+        background: rgba(178,34,34,0.15);
         color: #ff7f7f;
         border: 2px solid #ff4b4b;
-        box-shadow: 0px 0px 20px rgba(255,75,75,0.5);
+        box-shadow: 0px 0px 25px rgba(255,75,75,0.5);
     }
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
+        from { opacity: 0; transform: translateY(25px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
@@ -118,7 +117,7 @@ st.markdown(
         text-align: center;
         font-size: 0.9em;
         margin: 3em 0 1em 0;
-        color: #aaa;
+        color: #666;
     }
     </style>
     """,
@@ -129,14 +128,14 @@ st.markdown(
 st.markdown(
     """
     <div class="hero">
-        <h1>🍷 Wine Quality Predictor</h1>
-        <p>Experience the science of taste. Adjust the sliders and see if your wine is top-tier.</p>
+        <h1>🍷 Premium Wine Quality Predictor</h1>
+        <p>Discover if your wine meets the <b>premium standard</b>. Adjust the chemistry sliders and test the blend.</p>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-# --- Layout: Inputs Left, Preview Right ---
+# --- Layout: Inputs Left, Wine Glass Right ---
 col1, col2 = st.columns([2,1], gap="large")
 
 with col1:
@@ -160,9 +159,9 @@ with col2:
     st.markdown(
         """
         <div class="glass-card" style="text-align:center;">
-            <h3>🍇 Wine Profile</h3>
-            <p style="color:#ccc;">Adjust sliders to shape your wine's chemistry.</p>
-            <img src="https://cdn-icons-png.flaticon.com/512/415/415733.png" width="120">
+            <h3>Wine Glass Profile</h3>
+            <p style="color:#ccc;">Your chemistry settings reflect this pour:</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/931/931949.png" width="120">
         </div>
         """,
         unsafe_allow_html=True
@@ -181,14 +180,14 @@ probability = model.predict_proba(inputs_scaled)[0]
 if st.button("🔮 Predict Wine Quality"):
     if prediction == 1:
         st.markdown(
-            f'<div class="result-card good">✨ Premium Wine Detected!<br>This wine is <b>Good Quality</b> 🍇<br><br>Confidence: {probability[1]*100:.2f}%</div>',
+            f'<div class="result-card good">✨ Premium Wine Detected!<br>This wine is <b>Good Quality</b> 🍷<br><br>Confidence: {probability[1]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f'<div class="result-card bad">⚠️ Not Quite Vintage...<br>This wine is <b>Not Good Quality</b> 🍇<br><br>Confidence: {probability[0]*100:.2f}%</div>',
+            f'<div class="result-card bad">⚠️ Needs Refinement...<br>This wine is <b>Not Good Quality</b> 🍷<br><br>Confidence: {probability[0]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
 
 # --- Footer ---
-st.markdown('<p class="footer">Made with ❤️ • Powered by Streamlit</p>', unsafe_allow_html=True)
+st.markdown('<p class="footer">Made with ❤️ • A Boutique Wine AI Tool</p>', unsafe_allow_html=True)
