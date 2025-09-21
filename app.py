@@ -2,10 +2,9 @@ import streamlit as st
 import joblib
 import numpy as np
 
-st.set_page_config(page_title= "Wine Quality App", layout="wide")
 # ================== Page Config ==================
 st.set_page_config(
-    page_title="🍷 Wine Quality Predictor",
+    page_title="💖 Wine Quality Predictor",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -16,150 +15,103 @@ scaler = joblib.load("artifacts/scaler.pkl")
 
 # ================== Custom CSS ==================
 st.markdown("""
-   <style>
-        /* 🎀 Clean Rounded Dropdown (No Highlights) */
-        .stSelectbox div[data-baseweb="select"] {
-            border-radius: 25px !important;
-            border: 2px solid #f78fb3 !important;
-            background: #fff0f6 !important;
-            font-size: 16px !important;
-            box-shadow: 0px 3px 6px rgba(255, 120, 180, 0.2);
+    <style>
         /* Background */
         .stApp {
-            background: linear-gradient(160deg, #0f0f0f, #1c1c1c);
-            color: #f5f5f5;
-            font-family: 'Segoe UI', sans-serif;
-       }
-        /* 🚫 Remove highlight completely */
-        .stSelectbox div[data-baseweb="select"]:focus,
-        .stSelectbox div[data-baseweb="select"]:hover {
-            outline: none !important;
-            background: #fff0f6 !important;
-            border: 2px solid #f78fb3 !important;
-            box-shadow: none !important;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7, #ffb6c1);
+            color: #4a0033;
+            font-family: 'Poppins', sans-serif;
         }
-        /* 🔮 Dropdown menu itself */
-        .stSelectbox ul {
-            border-radius: 20px !important;
-            background: #fff0f6 !important;
-            border: 1px solid #f78fb3 !important;
 
-        /* Center container */
+        /* Container */
         .block-container {
             max-width: 800px;
             margin: auto;
             padding-top: 40px;
-       }
-        .stSelectbox ul li {
-            border-radius: 15px !important;
+        }
 
         /* Header */
         h1 {
             font-size: 3em;
             text-align: center;
             font-weight: 900;
-            background: linear-gradient(90deg, #ff4b4b, #ff8888);
+            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff6ec7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-       }
-        .stSelectbox ul li:hover {
-            background: #ffd6eb !important;
-            color: #d63384 !important;
+        }
         p {
             text-align: center;
             font-size: 1.2em;
-            color: #cccccc;
-       }
-    </style>
-""", unsafe_allow_html=True)
+            color: #660033;
+            font-style: italic;
+        }
 
         /* Sliders */
         .stSlider > div > div {
-            background: #333 !important;
-            height: 10px;
-            border-radius: 6px;
+            background: #ffe4ec !important;
+            height: 12px;
+            border-radius: 10px;
         }
         div[data-baseweb="slider"] span {
-            background: #ff4b4b !important;
-            border: 2px solid white !important;
-            height: 24px !important;
-            width: 24px !important;
+            background: #ff69b4 !important;
+            border: 3px solid white !important;
+            height: 26px !important;
+            width: 26px !important;
             border-radius: 50%;
+            box-shadow: 0px 0px 15px rgba(255, 105, 180, 0.7);
         }
         label {
             font-size: 1.1em !important;
-            color: #eeeeee !important;
+            color: #550033 !important;
             font-weight: 600 !important;
         }
 
-st.title("🍷Wine Quality App")
-
-# Two-column layout (5:6 ratio)
-col1, col2 = st.columns([5, 6])
-
-with col1:
-    fixed_acidity = st.selectbox("✨ Fixed Acidity", [round(x,1) for x in np.arange(4.0, 16.1, 0.5)])
-    volatile_acidity = st.selectbox("💎 Volatile Acidity", [round(x,2) for x in np.arange(0.1, 1.6, 0.05)])
-    citric_acid = st.selectbox("🌸 Citric Acid", [round(x,2) for x in np.arange(0.0, 1.1, 0.05)])
-    residual_sugar = st.selectbox("🍬 Residual Sugar", [round(x,1) for x in np.arange(0.5, 15.1, 0.5)])
-    chlorides = st.selectbox("🧂 Chlorides", [round(x,3) for x in np.arange(0.01, 0.21, 0.01)])
-    free_sulfur_dioxide = st.selectbox("💨 Free Sulfur Dioxide", list(range(1, 73)))
-
-with col2:
-    total_sulfur_dioxide = st.selectbox("🌫️ Total Sulfur Dioxide", list(range(6, 290, 5)))
-    density = st.selectbox("⚖️ Density", [round(x,3) for x in np.arange(0.990, 1.006, 0.001)])
-    pH = st.selectbox("🧪 pH", [round(x,2) for x in np.arange(2.5, 4.6, 0.05)])
-    sulphates = st.selectbox("🌟 Sulphates", [round(x,2) for x in np.arange(0.3, 2.1, 0.05)])
-    alcohol = st.selectbox("🍹 Alcohol %", [round(x,1) for x in np.arange(8.0, 15.1, 0.5)])
         /* Button */
         .stButton>button {
-            background: linear-gradient(90deg, #ff4b4b, #b22222);
+            background: linear-gradient(90deg, #ff69b4, #ff1493, #ff6ec7);
             color: white !important;
             font-size: 20px !important;
             font-weight: 700 !important;
-            padding: 0.8em 1.5em;
-            border-radius: 10px;
+            padding: 1em 1.5em;
+            border-radius: 30px;
             border: none;
             width: 100%;
-            box-shadow: 0px 5px 20px rgba(255,75,75,0.5);
+            box-shadow: 0px 5px 25px rgba(255,105,180,0.7);
             transition: all 0.3s ease-in-out;
         }
         .stButton>button:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 8px 30px rgba(255,75,75,0.8);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0px 10px 35px rgba(255,20,147,0.9);
         }
 
-# Predict Button
-if st.button("💖✨ Predict Wine Quality ✨💖"):
-    st.markdown('<div class="result-box">🍷 Your wine is likely to be of <span style="color:#ff4d79;">GOOD QUALITY</span> 💎✨</div>', unsafe_allow_html=True)
-    st.markdown("🌸 Extra Results: This wine has balanced acidity, sweet notes, and perfect alcohol levels for a *premium taste* 💕🍇✨")
         /* Result card */
         .result-card {
             margin-top: 30px;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 20px;
             text-align: center;
             font-size: 1.6em;
             font-weight: bold;
+            font-family: 'Poppins', sans-serif;
         }
         .good {
-            background: rgba(50,205,50,0.15);
-            border: 2px solid #32cd32;
-            color: #90ee90;
-            box-shadow: 0px 0px 20px rgba(50,205,50,0.6);
+            background: rgba(255,182,193,0.4);
+            border: 3px solid #ff69b4;
+            color: #b30059;
+            box-shadow: 0px 0px 25px rgba(255,105,180,0.6);
         }
         .bad {
-            background: rgba(255,75,75,0.15);
-            border: 2px solid #ff4b4b;
-            color: #ff9999;
-            box-shadow: 0px 0px 20px rgba(255,75,75,0.6);
+            background: rgba(255,228,225,0.6);
+            border: 3px solid #ff1493;
+            color: #800040;
+            box-shadow: 0px 0px 25px rgba(255,20,147,0.6);
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ================== App Header ==================
-st.markdown("<h1>🍷 Wine Quality Predictor</h1>", unsafe_allow_html=True)
-st.markdown("<p>Adjust the sliders below to test your wine blend.</p>", unsafe_allow_html=True)
+st.markdown("<h1>💖 Wine Quality Predictor</h1>", unsafe_allow_html=True)
+st.markdown("<p>Slide with style, girl! Let’s see if your wine is fabulous 🍷✨</p>", unsafe_allow_html=True)
 
 # ================== Sliders ==================
 fixed_acidity = st.slider("Fixed Acidity", 4.0, 16.0, 7.4)
@@ -175,7 +127,7 @@ sulphates = st.slider("Sulphates", 0.3, 2.0, 0.65)
 alcohol = st.slider("Alcohol %", 8.0, 15.0, 10.0)
 
 # ================== Prediction ==================
-if st.button("🔮 Predict Wine Quality"):
+if st.button("💅✨ Predict My Wine ✨💅"):
     input_data = np.array([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar,
                             chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
                             density, pH, sulphates, alcohol]])
@@ -185,11 +137,11 @@ if st.button("🔮 Predict Wine Quality"):
 
     if prediction == 1:
         st.markdown(
-            f"<div class='result-card good'>✅ Premium Wine Detected!<br>Good Quality 🍷<br>Confidence: {probability[1]*100:.2f}%</div>",
+            f"<div class='result-card good'>🌸✨ Premium Babe Wine! ✨🌸<br>Good Quality 💖🍷<br>Confidence: {probability[1]*100:.2f}%</div>",
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f"<div class='result-card bad'>❌ Needs Refinement...<br>Not Good Quality 🍷<br>Confidence: {probability[0]*100:.2f}%</div>",
+            f"<div class='result-card bad'>🙅‍♀️ Not Slaying Yet...<br>Needs a Glow-Up 💔🍷<br>Confidence: {probability[0]*100:.2f}%</div>",
             unsafe_allow_html=True
         )
