@@ -106,8 +106,6 @@ st.markdown("""
 st.markdown("<div class='top-bar'>🍷 Wine Quality Predictor</div>", unsafe_allow_html=True)
 
 # ================== App Card ==================
-st.markdown("<div class='main-card'>", unsafe_allow_html=True)
-
 st.markdown("<h2>Predict Your Wine’s Quality</h2>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Select the attributes below to check if your wine is good quality.</p>", unsafe_allow_html=True)
 
@@ -139,3 +137,4 @@ if st.button("🔮 Predict Wine Quality"):
         st.markdown(f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
+
