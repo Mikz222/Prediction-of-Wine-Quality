@@ -189,6 +189,6 @@ if st.button("🔮 Predict Wine Quality"):
             unsafe_allow_html=True
         )
 
-# --- Footer ---
-st.markdown('<p class="footer">Made with ❤️ • A Boutique Wine AI Tool</p>', unsafe_allow_html=True)
+
+
 
