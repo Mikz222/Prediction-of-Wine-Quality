@@ -11,9 +11,9 @@ st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layou
 st.markdown(
     """
     <style>
-    /* Fullscreen dark gradient background */
+    /* Fullscreen deep dark background */
     .main {
-        background: linear-gradient(135deg, #0d0d0d, #1a0000 80%) !important;
+        background: linear-gradient(160deg, #0a0a0a, #1a1a1a 90%) !important;
         color: #f0f0f0;
         min-height: 100vh;
         font-family: 'Segoe UI', sans-serif;
@@ -33,18 +33,18 @@ st.markdown(
         margin-bottom: 0.2em;
     }
     .hero p {
-        color: #aaa;
+        color: #bbb;
         font-size: 1.1em;
         margin-top: 0;
     }
 
     /* Glass card */
     .glass-card {
-        background: rgba(255, 255, 255, 0.06);
+        background: rgba(255, 255, 255, 0.04);
         border-radius: 18px;
         padding: 2em;
-        box-shadow: 0px 10px 30px rgba(0,0,0,0.8);
-        backdrop-filter: blur(15px);
+        box-shadow: 0px 10px 30px rgba(0,0,0,0.9);
+        backdrop-filter: blur(12px);
         transition: transform 0.3s ease;
     }
     .glass-card:hover {
@@ -54,7 +54,7 @@ st.markdown(
     /* Sliders */
     div[data-baseweb="slider"] > div {
         height: 14px !important;
-        background: rgba(255,255,255,0.12);
+        background: rgba(255,255,255,0.15);
         border-radius: 12px;
     }
     div[data-baseweb="slider"] span {
@@ -99,13 +99,13 @@ st.markdown(
         background: rgba(0, 128, 0, 0.15);
         color: #90ee90;
         border: 2px solid #32cd32;
-        box-shadow: 0px 0px 25px rgba(50,205,50,0.5);
+        box-shadow: 0px 0px 25px rgba(50,205,50,0.6);
     }
     .bad {
         background: rgba(178,34,34,0.15);
         color: #ff7f7f;
         border: 2px solid #ff4b4b;
-        box-shadow: 0px 0px 25px rgba(255,75,75,0.5);
+        box-shadow: 0px 0px 25px rgba(255,75,75,0.6);
     }
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(25px); }
@@ -117,7 +117,7 @@ st.markdown(
         text-align: center;
         font-size: 0.9em;
         margin: 3em 0 1em 0;
-        color: #666;
+        color: #555;
     }
     </style>
     """,
@@ -191,3 +191,4 @@ if st.button("🔮 Predict Wine Quality"):
 
 # --- Footer ---
 st.markdown('<p class="footer">Made with ❤️ • A Boutique Wine AI Tool</p>', unsafe_allow_html=True)
+
