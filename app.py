@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import joblib
 
 # Load artifacts
@@ -8,84 +7,82 @@ scaler = joblib.load("artifacts/scaler.pkl")
 
 st.set_page_config(page_title="Wine Quality Prediction", page_icon="🍷", layout="wide")
 
-# --- Custom CSS for Fullscreen Premium UI ---
+# --- Custom CSS ---
 st.markdown(
     """
     <style>
-    /* Remove default padding */
-    .block-container {
-        padding: 0 !important;
-        margin: 0 auto;
-        max-width: 100% !important;
-    }
-
-    /* Fullscreen background */
+    /* Full background */
     .main {
-        background: linear-gradient(135deg, #2a0a0a 0%, #0d0d0d 100%) !important;
+        background: radial-gradient(circle at top left, #3c0d0d, #0d0d0d 70%) !important;
         color: #f5f5f5;
         min-height: 100vh;
+        font-family: 'Segoe UI', sans-serif;
     }
 
-    /* Title */
-    h1, h2, h3 {
-        font-family: 'Georgia', serif;
+    /* Hero header */
+    .hero {
         text-align: center;
-        font-weight: 700;
+        padding: 3em 1em 2em 1em;
     }
-    h2 {
-        color: #ffcccc;
+    .hero h1 {
+        font-size: 3em;
+        font-weight: 800;
+        background: linear-gradient(90deg, #ff4b4b, #ffcccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 0.2em;
-        padding-top: 1em;
     }
-    p.subtitle {
-        text-align: center;
+    .hero p {
         color: #ddd;
-        font-size: 1.1em;
-        margin-bottom: 2em;
+        font-size: 1.2em;
+        margin-top: 0;
     }
 
-    /* Glassmorphic input card */
+    /* Glass card */
     .glass-card {
         background: rgba(255, 255, 255, 0.08);
-        padding: 3em;
-        border-radius: 18px;
-        box-shadow: 0 4px 25px rgba(0,0,0,0.5);
-        backdrop-filter: blur(10px);
-        width: 80%;
-        margin: 0 auto 2em auto;
+        border-radius: 20px;
+        padding: 2em;
+        box-shadow: 0px 8px 30px rgba(0,0,0,0.6);
+        backdrop-filter: blur(12px);
+        animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-6px); }
     }
 
     /* Sliders */
     div[data-baseweb="slider"] > div {
-        height: 12px !important;
+        height: 14px !important;
         background: rgba(255,255,255,0.15);
-        border-radius: 8px;
+        border-radius: 10px;
     }
     div[data-baseweb="slider"] span {
-        height: 26px !important;
-        width: 26px !important;
+        height: 28px !important;
+        width: 28px !important;
         background: #ff4b4b !important;
-        border: 2px solid white !important;
+        border: 3px solid white !important;
         border-radius: 50%;
-        box-shadow: 0px 0px 12px #ff4b4b;
+        box-shadow: 0px 0px 15px #ff4b4b;
     }
 
-    /* Predict button */
+    /* Button */
     .stButton > button {
-        background: linear-gradient(90deg, #b22222, #ff4b4b);
+        background: linear-gradient(90deg, #ff4b4b, #b22222);
         color: white;
         font-size: 20px;
-        font-weight: 600;
+        font-weight: 700;
         padding: 0.8em 1.6em;
-        border-radius: 12px;
+        border-radius: 14px;
         border: none;
         width: 100%;
-        transition: 0.3s;
+        transition: all 0.25s ease-in-out;
+        box-shadow: 0px 4px 20px rgba(255,75,75,0.5);
     }
     .stButton > button:hover {
-        background: linear-gradient(90deg, #ff4b4b, #b22222);
-        transform: scale(1.02);
-        box-shadow: 0px 4px 20px rgba(255,75,75,0.6);
+        transform: scale(1.05);
+        box-shadow: 0px 6px 25px rgba(255,75,75,0.7);
     }
 
     /* Result card */
@@ -94,20 +91,26 @@ st.markdown(
         margin: 2em auto;
         border-radius: 20px;
         text-align: center;
-        font-size: 1.4em;
-        font-weight: 600;
-        box-shadow: 0px 6px 25px rgba(0,0,0,0.5);
-        width: 60%;
+        font-size: 1.5em;
+        font-weight: 700;
+        width: 65%;
+        animation: fadeIn 0.8s ease-in-out;
     }
     .good {
-        background: rgba(34,139,34,0.2);
-        color: #90ee90;
+        background: rgba(50,205,50,0.2);
+        color: #98fb98;
         border: 2px solid #90ee90;
+        box-shadow: 0px 0px 20px rgba(50,205,50,0.5);
     }
     .bad {
         background: rgba(178,34,34,0.2);
         color: #ff7f7f;
         border: 2px solid #ff4b4b;
+        box-shadow: 0px 0px 20px rgba(255,75,75,0.5);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     /* Footer */
@@ -122,26 +125,48 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- Title ---
-st.markdown("<h2>🍷 Premium Wine Quality Predictor</h2>", unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Discover if your wine meets premium quality standards</p>', unsafe_allow_html=True)
+# --- Hero Header ---
+st.markdown(
+    """
+    <div class="hero">
+        <h1>🍷 Wine Quality Predictor</h1>
+        <p>Experience the science of taste. Adjust the sliders and see if your wine is top-tier.</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
-# --- Input Section (Glass Card) ---
-st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+# --- Layout: Inputs Left, Preview Right ---
+col1, col2 = st.columns([2,1], gap="large")
 
-fixed_acidity = st.slider("Fixed Acidity", 4.0, 15.0, 7.4)
-volatile_acidity = st.slider("Volatile Acidity", 0.1, 1.5, 0.3)
-citric_acid = st.slider("Citric Acid", 0.0, 1.0, 0.5)
-residual_sugar = st.slider("Residual Sugar", 0.5, 10.0, 2.5)
-chlorides = st.slider("Chlorides", 0.01, 0.2, 0.07)
-free_sulfur_dioxide = st.slider("Free Sulfur Dioxide", 1, 72, 30)
-total_sulfur_dioxide = st.slider("Total Sulfur Dioxide", 6, 289, 100)
-density = st.slider("Density", 0.990, 1.004, 0.995)
-pH = st.slider("pH", 2.5, 4.5, 3.3)
-sulphates = st.slider("Sulphates", 0.3, 2.0, 0.75)
-alcohol = st.slider("Alcohol", 8.0, 15.0, 12.5)
+with col1:
+    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
 
-st.markdown('</div>', unsafe_allow_html=True)
+    fixed_acidity = st.slider("Fixed Acidity", 4.0, 15.0, 7.4)
+    volatile_acidity = st.slider("Volatile Acidity", 0.1, 1.5, 0.3)
+    citric_acid = st.slider("Citric Acid", 0.0, 1.0, 0.5)
+    residual_sugar = st.slider("Residual Sugar", 0.5, 10.0, 2.5)
+    chlorides = st.slider("Chlorides", 0.01, 0.2, 0.07)
+    free_sulfur_dioxide = st.slider("Free Sulfur Dioxide", 1, 72, 30)
+    total_sulfur_dioxide = st.slider("Total Sulfur Dioxide", 6, 289, 100)
+    density = st.slider("Density", 0.990, 1.004, 0.995)
+    pH = st.slider("pH", 2.5, 4.5, 3.3)
+    sulphates = st.slider("Sulphates", 0.3, 2.0, 0.75)
+    alcohol = st.slider("Alcohol", 8.0, 15.0, 12.5)
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown(
+        """
+        <div class="glass-card" style="text-align:center;">
+            <h3>🍇 Wine Profile</h3>
+            <p style="color:#ccc;">Adjust sliders to shape your wine's chemistry.</p>
+            <img src="https://cdn-icons-png.flaticon.com/512/415/415733.png" width="120">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
 # --- Prediction ---
 inputs = [[
@@ -149,7 +174,6 @@ inputs = [[
     chlorides, free_sulfur_dioxide, total_sulfur_dioxide,
     density, pH, sulphates, alcohol
 ]]
-
 inputs_scaled = scaler.transform(inputs)
 prediction = model.predict(inputs_scaled)[0]
 probability = model.predict_proba(inputs_scaled)[0]
@@ -157,14 +181,14 @@ probability = model.predict_proba(inputs_scaled)[0]
 if st.button("🔮 Predict Wine Quality"):
     if prediction == 1:
         st.markdown(
-            f'<div class="result-card good">🍇 Excellent Choice!<br>This wine is <b>Good Quality</b><br><br>Confidence: {probability[1]*100:.2f}%</div>',
+            f'<div class="result-card good">✨ Premium Wine Detected!<br>This wine is <b>Good Quality</b> 🍇<br><br>Confidence: {probability[1]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            f'<div class="result-card bad">🍇 Not Quite There...<br>This wine is <b>Not Good Quality</b><br><br>Confidence: {probability[0]*100:.2f}%</div>',
+            f'<div class="result-card bad">⚠️ Not Quite Vintage...<br>This wine is <b>Not Good Quality</b> 🍇<br><br>Confidence: {probability[0]*100:.2f}%</div>',
             unsafe_allow_html=True
         )
 
 # --- Footer ---
-st.markdown('<p class="footer">Made with ❤️ for Mr. Sanborn • Powered by Streamlit</p>', unsafe_allow_html=True)
+st.markdown('<p class="footer">Made with ❤️ • Powered by Streamlit</p>', unsafe_allow_html=True)
