@@ -138,17 +138,24 @@ st.markdown("<h2>Predict Your Wine’s Quality</h2>", unsafe_allow_html=True)
 st.markdown("<p class='subtitle'>Select the attributes below to check if your wine is good quality.</p>", unsafe_allow_html=True)
 
 # ================== Dropdown Inputs ==================
-fixed_acidity = st.selectbox("Fixed Acidity", [round(x,1) for x in np.arange(4.0, 16.1, 0.5)])
-volatile_acidity = st.selectbox("Volatile Acidity", [round(x,2) for x in np.arange(0.1, 1.6, 0.05)])
-citric_acid = st.selectbox("Citric Acid", [round(x,2) for x in np.arange(0.0, 1.1, 0.05)])
-residual_sugar = st.selectbox("Residual Sugar", [round(x,1) for x in np.arange(0.5, 15.1, 0.5)])
-chlorides = st.selectbox("Chlorides", [round(x,3) for x in np.arange(0.01, 0.21, 0.01)])
-free_sulfur_dioxide = st.selectbox("Free Sulfur Dioxide", list(range(1, 73)))
-total_sulfur_dioxide = st.selectbox("Total Sulfur Dioxide", list(range(6, 290, 5)))
-density = st.selectbox("Density", [round(x,3) for x in np.arange(0.990, 1.006, 0.001)])
-pH = st.selectbox("pH", [round(x,2) for x in np.arange(2.5, 4.6, 0.05)])
-sulphates = st.selectbox("Sulphates", [round(x,2) for x in np.arange(0.3, 2.1, 0.05)])
-alcohol = st.selectbox("Alcohol %", [round(x,1) for x in np.arange(8.0, 15.1, 0.5)])
+# ================== Dropdown Inputs ==================
+col1, col2 = st.columns([5, 6])  # 5:6 ratio
+
+with col1:
+    fixed_acidity = st.selectbox("Fixed Acidity", [round(x,1) for x in np.arange(4.0, 16.1, 0.5)])
+    volatile_acidity = st.selectbox("Volatile Acidity", [round(x,2) for x in np.arange(0.1, 1.6, 0.05)])
+    citric_acid = st.selectbox("Citric Acid", [round(x,2) for x in np.arange(0.0, 1.1, 0.05)])
+    residual_sugar = st.selectbox("Residual Sugar", [round(x,1) for x in np.arange(0.5, 15.1, 0.5)])
+    chlorides = st.selectbox("Chlorides", [round(x,3) for x in np.arange(0.01, 0.21, 0.01)])
+    free_sulfur_dioxide = st.selectbox("Free Sulfur Dioxide", list(range(1, 73)))
+
+with col2:
+    total_sulfur_dioxide = st.selectbox("Total Sulfur Dioxide", list(range(6, 290, 5)))
+    density = st.selectbox("Density", [round(x,3) for x in np.arange(0.990, 1.006, 0.001)])
+    pH = st.selectbox("pH", [round(x,2) for x in np.arange(2.5, 4.6, 0.05)])
+    sulphates = st.selectbox("Sulphates", [round(x,2) for x in np.arange(0.3, 2.1, 0.05)])
+    alcohol = st.selectbox("Alcohol %", [round(x,1) for x in np.arange(8.0, 15.1, 0.5)])
+
 
 # ================== Prediction Button ==================
 if st.button("🔮 Predict Wine Quality"):
@@ -191,6 +198,7 @@ if st.button("🔮 Predict Wine Quality"):
             </div>
             """, unsafe_allow_html=True
         )
+
 
 
 
