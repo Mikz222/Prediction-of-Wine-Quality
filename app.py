@@ -5,7 +5,7 @@ import numpy as np
 # ================== Page Config ==================
 st.set_page_config(
     page_title="Wine Quality Predictor 🍷",
-    layout="wide",
+    layout="centered",
     initial_sidebar_state="collapsed"
 )
 
@@ -16,63 +16,66 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
-        /* Full dark gradient background */
+        /* Fullscreen background */
         .stApp {
-            background: linear-gradient(135deg, #0d0d0d, #1c1c1c, #2a2a2a);
+            background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #262626);
             color: #ffffff;
+            font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Center main block */
+        /* Centered container */
         .main-container {
-            max-width: 700px;
+            max-width: 650px;
             margin: auto;
-            padding: 40px;
-            background: rgba(20, 20, 20, 0.9);
+            padding: 40px 50px;
+            background: rgba(0,0,0,0.6);
             border-radius: 18px;
-            box-shadow: 0px 4px 20px rgba(0,0,0,0.8);
+            box-shadow: 0px 8px 30px rgba(0,0,0,0.85);
         }
 
+        /* Headers */
         h1 {
             color: #ff4d4d !important;
-            font-size: 52px !important;
+            font-size: 48px !important;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
-
-        p {
+        p.subtitle {
             text-align: center;
-            font-size: 20px !important;
-            color: #cccccc !important;
-            margin-bottom: 30px;
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 25px;
         }
 
         /* Sliders */
         .stSlider label {
-            font-size: 18px !important;
+            font-size: 16px !important;
             color: #ffffff !important;
         }
-        .stSlider [role='slider'] {
-            height: 24px;
-            border-radius: 12px;
-            background: #ff4d4d;
+        div[data-baseweb="slider"] > div {
+            background: #444 !important;  /* track */
+            height: 8px;
+            border-radius: 4px;
         }
-        .stSlider > div > div {
-            background: #444 !important;
-            height: 10px;
-            border-radius: 5px;
+        div[data-baseweb="slider"] span {
+            background: #ff4d4d !important;  /* handle */
+            border: 2px solid white;
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
         }
 
-        /* Prediction Button */
+        /* Button */
         .stButton>button {
             background-color: #ff4d4d;
             color: white;
             border-radius: 12px;
-            height: 65px;
+            height: 55px;
             width: 100%;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             border: none;
-            box-shadow: 0px 4px 15px rgba(255,77,77,0.4);
+            box-shadow: 0px 4px 12px rgba(255,77,77,0.4);
             transition: 0.3s;
         }
         .stButton>button:hover {
@@ -80,20 +83,24 @@ st.markdown("""
             transform: scale(1.02);
         }
 
-        /* Prediction Results */
-        .result-good {
-            color: #2ecc71;
-            font-size: 32px;
-            text-align: center;
-            font-weight: bold;
+        /* Result Cards */
+        .result-card {
+            padding: 25px;
             margin-top: 30px;
+            border-radius: 14px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
         }
-        .result-bad {
-            color: #e74c3c;
-            font-size: 32px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 30px;
+        .good {
+            background: rgba(0, 128, 0, 0.15);
+            color: #2ecc71;
+            border: 2px solid #2ecc71;
+        }
+        .bad {
+            background: rgba(178, 34, 34, 0.15);
+            color: #ff4d4d;
+            border: 2px solid #ff4d4d;
         }
     </style>
 """, unsafe_allow_html=True)
@@ -101,8 +108,8 @@ st.markdown("""
 # ================== App Layout ==================
 st.markdown("<div class='main-container'>", unsafe_allow_html=True)
 
-st.markdown("## 🍷 Wine Quality Predictor")
-st.write("<p>Adjust the sliders below and see if your wine passes the test</p>", unsafe_allow_html=True)
+st.markdown("<h1>Wine Quality Predictor 🍷</h1>", unsafe_allow_html=True)
+st.markdown("<p class='subtitle'>Adjust the sliders below and see if your wine passes the test</p>", unsafe_allow_html=True)
 
 # ================== Input Sliders ==================
 fixed_acidity = st.slider("Fixed Acidity", 4.0, 16.0, 7.4)
@@ -127,8 +134,8 @@ if st.button("🍷 Predict Wine Quality"):
     probability = model.predict_proba(input_scaled)[0]
 
     if prediction == 1:
-        st.markdown(f"<div class='result-good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='result-card good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<div class='result-bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
+        st.markdown(f"<div class='result-card bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
