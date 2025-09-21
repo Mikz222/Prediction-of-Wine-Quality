@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 
-st.set_page_config(page_title= Wine Quality App", layout="wide")
+st.set_page_config(page_title= "Wine Quality App", layout="wide")
 
 
 st.markdown("""
@@ -94,3 +94,4 @@ with col2:
 if st.button("💖✨ Predict Wine Quality ✨💖"):
     st.markdown('<div class="result-box">🍷 Your wine is likely to be of <span style="color:#ff4d79;">GOOD QUALITY</span> 💎✨</div>', unsafe_allow_html=True)
     st.markdown("🌸 Extra Results: This wine has balanced acidity, sweet notes, and perfect alcohol levels for a *premium taste* 💕🍇✨")
+
