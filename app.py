@@ -14,13 +14,17 @@ model = joblib.load("artifacts/wine_quality_model.pkl")
 scaler = joblib.load("artifacts/scaler.pkl")
 
 # ================== Custom CSS ==================
+# ================== Custom CSS ==================
 st.markdown("""
     <style>
+        /* Global App Styling */
         .stApp {
             background-color: #f0f2f5;
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #1c1e21;
         }
+
+        /* Navbar */
         .top-bar {
             background-color: #1877f2;
             color: white;
@@ -31,9 +35,12 @@ st.markdown("""
             border-radius: 0 0 10px 10px;
             margin-bottom: 30px;
         }
+
+        /* Headings */
         h2 {
             font-size: 28px !important;
             text-align: center;
+            color: #1c1e21 !important;
             margin-bottom: 8px;
         }
         p.subtitle {
@@ -42,10 +49,29 @@ st.markdown("""
             color: #606770;
             margin-bottom: 25px;
         }
-        .stSelectbox label {
-            font-weight: 500 !important;
-            color: #050505 !important;
+
+        /* Dropdown Styling */
+        .stSelectbox {
+            padding: 8px 12px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            box-shadow: 0px 1px 3px rgba(0,0,0,0.08);
+            transition: all 0.2s ease-in-out;
+            margin-bottom: 15px;
         }
+        .stSelectbox:hover {
+            border-color: #1877f2;
+            box-shadow: 0px 0px 5px rgba(24, 119, 242, 0.3);
+        }
+        .stSelectbox label {
+            font-weight: 600 !important;
+            color: #050505 !important;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        /* Button */
         .stButton>button {
             background-color: #1877f2;
             color: white;
@@ -55,43 +81,38 @@ st.markdown("""
             font-size: 18px;
             font-weight: 600;
             border: none;
+            transition: 0.2s ease-in-out;
         }
         .stButton>button:hover {
             background-color: #166fe5;
+            transform: scale(1.02);
         }
-        /* Result Cards */
+
+        /* Result Card */
         .result-card {
-            padding: 30px;
-            margin-top: 30px;
-            border-radius: 14px;
+            padding: 22px;
+            margin-top: 28px;
+            border-radius: 12px;
             text-align: center;
             font-size: 20px;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             animation: fadeIn 0.6s ease-in-out;
         }
         .good {
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            background: #e7f9ef;
             color: #1b5e20;
             border: 2px solid #2e7d32;
         }
         .bad {
-            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            background: #fde8e8;
             color: #b71c1c;
             border: 2px solid #d32f2f;
         }
-        .result-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-        .confidence {
-            font-size: 18px;
-            color: #333;
-        }
+
+        /* Smooth Fade Animation */
         @keyframes fadeIn {
-            from {opacity: 0; transform: translateY(15px);}
-            to {opacity: 1; transform: translateY(0);}
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 """, unsafe_allow_html=True)
@@ -143,3 +164,4 @@ if st.button("🔮 Predict Wine Quality"):
             </div>
             """, unsafe_allow_html=True
         )
+
