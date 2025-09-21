@@ -6,22 +6,7 @@ st.set_page_config(page_title= "Wine Quality App", layout="wide")
 
 st.markdown("""
     <style>
-        body {
-            background: linear-gradient(135deg, #ffdde1, #ee9ca7, #fad0c4, #ffd1ff);
-            background-attachment: fixed;
-        }
-        h1 {
-            font-size: 40px !important;
-            color: #ff6b9d !important;
-            text-align: center;
-            font-weight: 900;
-            text-shadow: 2px 2px 6px rgba(255, 100, 150, 0.4);
-        }
-        .stSelectbox label {
-            font-size: 18px !important;
-            color: #8e44ad !important;
-            font-weight: 700;
-        }
+        /*  Fix Dropdown Rounded Corners */
         .stSelectbox div[data-baseweb="select"] {
             border-radius: 25px !important;
             border: 2px solid #f78fb3 !important;
@@ -30,45 +15,29 @@ st.markdown("""
             box-shadow: 0px 3px 6px rgba(255, 120, 180, 0.3);
             transition: all 0.3s ease;
         }
+
+        .stSelectbox div[data-baseweb="select"]:focus,
         .stSelectbox div[data-baseweb="select"]:hover {
-            border-color: #ff6b81 !important;
+            outline: none !important;
+            background: #ffe6f0 !important;
+            border: 2px solid #ff6b9d !important;
+            border-radius: 25px !important;
             box-shadow: 0px 4px 12px rgba(255, 105, 180, 0.5);
         }
-        .stButton>button {
-            background: linear-gradient(to right, #ff6b81, #ff9ff3);
-            color: white;
-            border-radius: 40px;
-            border: none;
-            padding: 14px 35px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0px 6px 15px rgba(255, 0, 150, 0.4);
-            transition: all 0.3s ease-in-out;
+  
+        .stSelectbox ul {
+            border-radius: 20px !important;
+            background: #fff0f6 !important;
+            border: 1px solid #ff9ff3 !important;
         }
-        .stButton>button:hover {
-            background: linear-gradient(to right, #ff9ff3, #ff6b81);
-            transform: scale(1.05);
-            box-shadow: 0px 8px 20px rgba(255, 0, 150, 0.6);
-        }
-        .result-box {
-            background: linear-gradient(135deg, #ffe6f0, #ffd6eb);
-            padding: 25px;
-            border-radius: 20px;
-            text-align: center;
-            color: #6a0572;
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 30px;
-            animation: fadeIn 1s ease-in-out;
-            box-shadow: 0px 6px 18px rgba(255, 0, 100, 0.2);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .stSelectbox ul li:hover {
+            background: #ffd6eb !important;
+            border-radius: 15px !important;
+            color: #d63384 !important;
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 st.title("🍷G Wine Quality App")
 
@@ -94,4 +63,5 @@ with col2:
 if st.button("💖✨ Predict Wine Quality ✨💖"):
     st.markdown('<div class="result-box">🍷 Your wine is likely to be of <span style="color:#ff4d79;">GOOD QUALITY</span> 💎✨</div>', unsafe_allow_html=True)
     st.markdown("🌸 Extra Results: This wine has balanced acidity, sweet notes, and perfect alcohol levels for a *premium taste* 💕🍇✨")
+
 
