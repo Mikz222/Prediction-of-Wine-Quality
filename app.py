@@ -1,11 +1,10 @@
 import streamlit as st
 import joblib
 import numpy as np
-from PIL import Image
 
 # ================== Page Config ==================
 st.set_page_config(
-    page_title="🍷 Wine Quality Predictor",
+    page_title="Wine Quality Predictor",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -17,62 +16,84 @@ scaler = joblib.load("artifacts/scaler.pkl")
 # ================== Custom CSS ==================
 st.markdown("""
     <style>
-        body {
-            background-color: #121212;
-        }
+        /* Background */
         .stApp {
-            background-color: #121212;
+            background-color: #0d0d0d;
             color: #ffffff;
         }
+        
+        /* Header */
         h1, h2, h3 {
             color: #ffffff !important;
-            font-size: 48px !important;
+            font-size: 52px !important;
             text-align: center;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* Subheading */
+        .subheader {
+            text-align: center;
+            font-size: 22px !important;
+            color: #bbbbbb !important;
+            margin-bottom: 30px;
+        }
+
+        /* Sliders container as card */
+        .stSlider {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
             margin-bottom: 20px;
         }
-        p, label {
-            font-size: 20px !important;
-            color: #cccccc !important;
-        }
-        .stSlider > div > div {
-            padding: 10px 0;
-        }
+
+        /* Slider customization */
         .stSlider [role='slider'] {
-            height: 20px;
+            height: 18px;
             border-radius: 10px;
-            background: #8e44ad;
+            background: linear-gradient(90deg, #8e44ad, #ff4b2b);
         }
-        .css-1offfwp {  /* Slider number text */
+        .css-1offfwp {
             font-size: 20px !important;
         }
+
+        /* Button */
         .stButton>button {
-            background-color: #8e44ad;
+            background: linear-gradient(135deg, #8e44ad, #c0392b);
             color: white;
             border-radius: 12px;
-            height: 60px;
+            height: 65px;
             font-size: 24px;
             font-weight: bold;
+            border: none;
+            transition: 0.3s;
         }
+        .stButton>button:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #9b59b6, #e74c3c);
+        }
+
+        /* Results */
         .result-good {
             color: #2ecc71;
-            font-size: 32px;
+            font-size: 34px;
             text-align: center;
             font-weight: bold;
-            margin-top: 30px;
+            margin-top: 40px;
         }
         .result-bad {
             color: #e74c3c;
-            font-size: 32px;
+            font-size: 34px;
             text-align: center;
             font-weight: bold;
-            margin-top: 30px;
+            margin-top: 40px;
         }
     </style>
 """, unsafe_allow_html=True)
 
 # ================== App Header ==================
 st.markdown("## 🍷 Wine Quality Prediction")
-st.write("<p style='text-align:center; font-size:22px;'>Enter the wine attributes below to predict its quality.</p>", unsafe_allow_html=True)
+st.markdown("<p class='subheader'>Adjust the sliders to enter wine attributes and predict its quality.</p>", unsafe_allow_html=True)
 
 # ================== Input Sliders ==================
 col1, col2 = st.columns(2)
@@ -102,6 +123,12 @@ if st.button("🍷 Predict Wine Quality"):
     probability = model.predict_proba(input_scaled)[0]
 
     if prediction == 1:
-        st.markdown(f"<div class='result-good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div class='result-good'>✅ This wine is predicted to be Good Quality<br>Confidence: {probability[1]*100:.2f}%</div>",
+            unsafe_allow_html=True
+        )
     else:
-        st.markdown(f"<div class='result-bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>", unsafe_allow_html=True)
+        st.markdown(
+            f"<div class='result-bad'>❌ This wine is predicted to be Not Good Quality<br>Confidence: {probability[0]*100:.2f}%</div>",
+            unsafe_allow_html=True
+        )
