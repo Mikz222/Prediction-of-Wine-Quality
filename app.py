@@ -19,7 +19,7 @@ st.markdown("""
     <style>
         /* Global App Styling */
         .stApp {
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #e8f0fe 0%, #f5f8ff 100%);
             font-family: 'Helvetica Neue', Arial, sans-serif;
             color: #1c1e21;
         }
@@ -32,8 +32,9 @@ st.markdown("""
             text-align: center;
             font-size: 22px;
             font-weight: 600;
-            border-radius: 0 0 10px 10px;
+            border-radius: 0 0 12px 12px;
             margin-bottom: 30px;
+            box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
         }
 
         /* Headings */
@@ -52,17 +53,18 @@ st.markdown("""
 
         /* Dropdown Styling */
         .stSelectbox {
-            padding: 8px 12px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            box-shadow: 0px 1px 3px rgba(0,0,0,0.08);
+            padding: 10px 12px;
+            border-radius: 12px;
+            background-color: #f9fbff;
+            border: 1px solid #d0d7e6;
+            box-shadow: 0px 1px 4px rgba(0,0,0,0.08);
             transition: all 0.2s ease-in-out;
             margin-bottom: 15px;
         }
         .stSelectbox:hover {
             border-color: #1877f2;
-            box-shadow: 0px 0px 5px rgba(24, 119, 242, 0.3);
+            box-shadow: 0px 0px 6px rgba(24, 119, 242, 0.35);
+            background-color: #f0f6ff;
         }
         .stSelectbox label {
             font-weight: 600 !important;
@@ -75,47 +77,52 @@ st.markdown("""
         .stButton>button {
             background-color: #1877f2;
             color: white;
-            border-radius: 8px;
-            height: 50px;
+            border-radius: 10px;
+            height: 52px;
             width: 100%;
             font-size: 18px;
             font-weight: 600;
             border: none;
-            transition: 0.2s ease-in-out;
+            transition: 0.25s ease-in-out;
+            box-shadow: 0px 2px 6px rgba(24, 119, 242, 0.3);
         }
         .stButton>button:hover {
             background-color: #166fe5;
-            transform: scale(1.02);
+            transform: scale(1.03);
+            box-shadow: 0px 4px 12px rgba(24, 119, 242, 0.4);
         }
 
         /* Result Card */
         .result-card {
-            padding: 22px;
+            padding: 24px;
             margin-top: 28px;
-            border-radius: 12px;
+            border-radius: 14px;
             text-align: center;
             font-size: 20px;
             font-weight: 600;
             animation: fadeIn 0.6s ease-in-out;
         }
         .good {
-            background: #e7f9ef;
+            background: #e6f7ed;
             color: #1b5e20;
             border: 2px solid #2e7d32;
+            box-shadow: 0px 2px 8px rgba(46, 125, 50, 0.2);
         }
         .bad {
-            background: #fde8e8;
+            background: #fdeaea;
             color: #b71c1c;
             border: 2px solid #d32f2f;
+            box-shadow: 0px 2px 8px rgba(211, 47, 47, 0.2);
         }
 
         /* Smooth Fade Animation */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
     </style>
 """, unsafe_allow_html=True)
+
 
 # ================== Top Navbar ==================
 st.markdown("<div class='top-bar'>🍷 Wine Quality Predictor</div>", unsafe_allow_html=True)
@@ -164,4 +171,5 @@ if st.button("🔮 Predict Wine Quality"):
             </div>
             """, unsafe_allow_html=True
         )
+
 
